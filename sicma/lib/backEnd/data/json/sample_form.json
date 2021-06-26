@@ -1,0 +1,14 @@
+
+{
+  "title": "Personal Information",
+      "fields": [
+        {
+          "type":"Input",
+          "key":"name",
+          "placeholder":"Name",
+          "value":"",
+          "required":true
+        }
+   ]
+}
+  

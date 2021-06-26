@@ -1,0 +1,518 @@
+{
+  "title": "Consulta",
+  "description": "Formulario de consultas",
+  "autoValidated": true,
+  "fields": [
+    {
+      "key": "",
+      "type": "Section",
+      "title": "Estado Actual",
+      "fields": [
+        {
+          "key": "inputKey",
+          "title": "fecha",
+          "type": "Hidden",
+          "label": "ID",
+          "placeholder": "ID"
+        },
+        {
+          "key": "inputKey",
+          "title": "sintomas",
+          "type": "Input",
+          "label": "Sintomas",
+          "placeholder": "Sintomas"
+        },
+        {
+          "key": "estado",
+          "type": "Switch",
+          "title": "tratamiento",
+          "label": "Tratamiento",
+          "value": false
+        },
+        {
+          "key": "inputKey",
+          "title": "tratamientos",
+          "type": "Input",
+          "label": "Tratamientos",
+          "placeholder": "Tratamientos"
+        },
+        {
+          "key": "inputKey",
+          "title": "group",
+          "type": "Group",
+          "label": "Signos vitales",
+          "fields": [
+            {
+              "key": "pulso",
+              "title": "name",
+              "type": "Input",
+              "label": "Pulso",
+              "placeholder": "Pulso"
+            },
+            {
+              "key": "ta",
+              "title": "name",
+              "type": "Input",
+              "label": "TA",
+              "placeholder": "TA"
+            },
+            {
+              "key": "temperatura",
+              "title": "name",
+              "type": "Input",
+              "label": "Temperatura",
+              "placeholder": "Temperatura"
+            }
+          ]
+        },
+        {
+          "key": "exploracionesFisicas",
+          "title": "group",
+          "type": "Group",
+          "label": "Exploracion Física",
+          "fields": [
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Labios",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Labios",
+                  "type": "Hidden",
+                  "label": "Labios",
+                  "placeholder": "Labios"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Ojos",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Ojos",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "cara",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Cara",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "nombre",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Uñas",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Uñas",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Dentadura",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Dentadura",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Cabello",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Cabello",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "Piel",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Piel",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Piel",
+                  "type": "Hidden"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "Antropometria",
+      "type": "Section",
+      "title": "Antropometria",
+      "fields": [
+        {
+          "key": "medidas",
+          "type": "Group",
+          "label": null,
+          "fields": [
+            {
+              "key": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "nombre",
+                  "type": "Hidden",
+                  "value": "medida 1"
+                },
+                {
+                  "key": "magnitud",
+                  "title": "magnitud",
+                  "type": "Input",
+                  "label": "medida 1",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "nivel",
+                  "type": "Hidden",
+                  "value": "ISAK 1"
+                }
+              ]
+            }
+          ]
+        },
+      {  
+      "key": "",
+      "type": "Section",
+      "title": "Diagnósticos",
+      "fields": [
+        {
+          "key": "diagnosticos",
+          "type": "Group",
+          "label": null,
+          "fields": [
+            {
+              "key": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "nombre",
+                  "type": "Hidden",
+                  "value": "diagnostico 1"
+                },
+                {
+                  "key": "magnitud",
+                  "title": "magnitud",
+                  "type": "Input",
+                  "label": "medida 1",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "formula",
+                  "title": "formula",
+                  "type": "Input",
+                  "label": "formula 1",
+                  "placeholder": ""
+                },
+                {
+                  "key": "indicador",
+                  "title": "indicador",
+                  "type": "Input",
+                  "label": "indicador 1",
+                  "placeholder": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+      ]
+    },
+    {
+      "key": "planNutricional",
+      "type": "Section",
+      "title": "Plan Nutricional",
+      "fields": [
+        {
+          "key": "tipoDieta",
+          "title": "tipoDieta",
+          "type": "Input",
+          "label": "Tipo de dieta",
+          "placeholder": ""
+        },
+        {
+          "key": "observaciones",
+          "title": "observaciones",
+          "type": "Input",
+          "label": "Observaciones",
+          "placeholder": ""
+        },
+        {
+          "key": "calculoDietetico",
+          "type": "Group",
+          "label": "Cálculo Dietético",
+          "fields": [
+            {
+              "key": "nombre",
+              "type": "Hidden",
+              "value": "diagnostico 1"
+            },
+            {
+              "key": "magnitud",
+              "title": "magnitud",
+              "type": "Input",
+              "label": "medida 1",
+              "placeholder": "0.00"
+            }
+          ]
+        },
+        {
+          "key": "dietosienteticos",
+          "type": "Group",
+          "label": "Dieto sientéticos",
+          "fields": [
+            {
+              "key": "grupo",
+              "type": "Hidden",
+              "value": "Grupo 1"
+            },
+            {
+              "key": "gramos ",
+              "title": "gramos ",
+              "type": "Input",
+              "label": "Gramos ",
+              "placeholder": "0.00"
+            },
+            {
+              "key": "calorias",
+              "title": "calorias",
+              "type": "Input",
+              "label": "Calorias",
+              "placeholder": "0.00"
+            },
+            {
+              "key": "porcentajes",
+              "title": "porcentajes",
+              "type": "Input",
+              "label": "Porcentajes",
+              "placeholder": "0.00"
+            }
+          ]
+        },
+        {
+          "key": "recordatorios",
+          "type": "Group",
+          "label": "Recordatorio 24hrs",
+          "fields": [
+            {
+              "title": "tiempo",
+              "key": "tiempo ",
+              "type": "Select",
+              "label": "Tiempo",
+              "items": [
+                {
+                  "label": "Desayuno",
+                  "value": "Desayuno"
+                },
+                {
+                  "label": "Comida",
+                  "value": "Comida"
+                },
+                {
+                  "label": "Cena",
+                  "value": "Cena"
+                },
+                {
+                  "label": "Entre comidas",
+                  "value": "Entre comidas"
+                }
+              ]
+            },
+            {
+              "key": "horario",
+              "title": "horario",
+              "type": "Input",
+              "label": "Horario",
+              "placeholder": "0.00"
+            },
+            {
+              "key": "alimentos",
+              "type": "Group",
+              "label": "Alimentos",
+              "fields": [
+                {
+                  "key": "alimento",
+                  "title": "alimento",
+                  "type": "Input",
+                  "label": "Alimento",
+                  "placeholder": "Alimento"
+                },
+                {
+                  "key": "cantidad",
+                  "title": "cantidad",
+                  "type": "Input",
+                  "label": "Cantidad",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "porcion ",
+                  "title": "porcion ",
+                  "type": "Input",
+                  "label": "Porcion ",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "pt  ",
+                  "title": "pt  ",
+                  "type": "Input",
+                  "label": "PT ",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "pt  ",
+                  "title": "pt  ",
+                  "type": "Input",
+                  "label": "PT ",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "lip   ",
+                  "title": "lip   ",
+                  "type": "Input",
+                  "label": "LIP ",
+                  "placeholder": "0.00"
+                },
+                {
+                  "key": "hco",
+                  "title": "hco",
+                  "type": "Input",
+                  "label": "HCO",
+                  "placeholder": "0.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "planes",
+          "type": "Group",
+          "label": "Plan",
+          "fields": [
+            {
+              "title": "tiempo",
+              "key": "tiempo ",
+              "type": "Select",
+              "label": "Tiempo",
+              "items": [
+                {
+                  "label": "Desayuno",
+                  "value": "Desayuno"
+                },
+                {
+                  "label": "Comida",
+                  "value": "Comida"
+                },
+                {
+                  "label": "Cena",
+                  "value": "Cena"
+                },
+                {
+                  "label": "Entre comidas",
+                  "value": "Entre comidas"
+                }
+              ]
+            },
+            {
+              "key": "horario",
+              "title": "horario",
+              "type": "Input",
+              "label": "Horario",
+              "placeholder": "0.00"
+            },
+            {
+              "key": "opciones",
+              "title": "opciones",
+              "type": "Input",
+              "label": "Opciones",
+              "placeholder": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

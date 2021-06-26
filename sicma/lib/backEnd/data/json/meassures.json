@@ -1,0 +1,286 @@
+{
+        "Medidas básicas": [
+                {
+                        "label": "Envergadura",
+                        "nombre": "Envergadura",
+                        "nivel": "ISAK II",
+                        "code":1
+                },
+                {
+                        "label": "Estatura",
+                        "nombre": "Estatura",
+                        "nivel": "ISAK I",
+                        
+                        "code":2
+                },
+                {
+                        "label": "Masa corporal",
+                        "nombre": "Masa corporal",
+                        "nivel": "ISAK I",
+                        "code":3
+                },
+                {
+                        "label": "Talla sentado",
+                        "nombre": "Talla sentado",
+                        "nivel": "ISAK II",
+                        "code":4
+                }
+        ],
+        "Pliegues cutáneos": [
+                {
+                        "label": "Abdominal",
+                        "nombre": "Pl. de abdominal",
+                        "nivel": "ISAK I",
+                        "code":5
+                },
+                {
+                        "label": "Bíceps",
+                        "nombre": "Pl. de bíceps",
+                        "nivel": "ISAK I"
+                        ,
+                        "code":6
+                },
+                {
+                        "label": "Cresta ilíaca",
+                        "nombre": "Pl. de cresta ilíaca",
+                        "nivel": "ISAK I",
+                        "code":7
+                },
+                {
+                        "label": "Muslo anterior",
+                        "nombre": "Pl. de muslo anterior",
+                        "nivel": "ISAK I",
+                        "code":8
+                },
+                {
+                        "label": "Pierna medial",
+                        "nombre": "Pl. de pierna medial",
+                        "nivel": "ISAK I",
+                        "code":9
+                },
+                {
+                        "label": "Subescapular",
+                        "nombre": "Pl. de subescapular",
+                        "nivel": "ISAK I"
+                        ,
+                        "code":10
+                },
+                {
+                        "label": "Supraespinal",
+                        "nombre": "Pl. de supraespinal",
+                        "nivel": "ISAK I",
+                        "code":11
+                },
+                {
+                        "label": "Tríceps",
+                        "nombre": "Pl. de tríceps",
+                        "nivel": "ISAK I"
+                        ,
+                        "code":12
+                }
+        ],
+        "Perímetros": [
+                {
+                        "label": "Antebrazo",
+                        "nombre": "P. de antebrazo",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":13
+                },
+                {
+                        "label": "Brazo flexionado",
+                        "nombre": "P. de brazo flexionado",
+                        "nivel": "ISAK I"
+                        ,
+                        "code":14
+                },
+                {
+                        "label": "Brazo relajado",
+                        "nombre": "P. de brazo relajado",
+                        "nivel": "ISAK I",
+                        "code":15
+                },
+                {
+                        "label": "Cabeza",
+                        "nombre": "P. de cabeza",
+                        "nivel": "ISAK II",
+                        "code":16
+                },
+                {
+                        "label": "Cintura",
+                        "nombre": "P. de cintura",
+                        "nivel": "ISAK I"
+                        ,
+                        "code":17
+                },
+                {
+                        "label": "Cuello",
+                        "nombre": "P. de cuello",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":18
+                },
+                {
+                        "label": "Glúteo",
+                        "nombre": "P. de glúteo",
+                        "nivel": "ISAK I",
+                        "code":19
+                },
+                {
+                        "label": "Muñeca",
+                        "nombre": "P. de muñeca",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":20
+                },
+                {
+                        "label": "Muslo a 1 cm",
+                        "nombre": "P. de muslo a 1 cm",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":21
+                },
+                {
+                        "label": "Muslo medio",
+                        "nombre": "P. de muslo medio",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":22
+                },
+                {
+                        "label": "Pierna",
+                        "nombre": "P. de pierna",
+                        "nivel": "ISAK I",
+                        "code":23
+                },
+                {
+                        "label": "Tobillo",
+                        "nombre": "P. de tobillo",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":24
+                },
+                {
+                        "label": "Torax",
+                        "nombre": "P. de tórax o pecho",
+                        "nivel": "ISAK II",
+                        "code":25
+                }
+        ],
+        "Longitudes": [
+                {
+                        "label": "Acromiale-radiale",
+                        "nombre": "L. de acromiale-radiale",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":26
+                },
+                {
+                        "label": "Altura iliospinale",
+                        "nombre": "L. de altura iliospinale",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":27
+                },
+                {
+                        "label": "Altura tibial lateral",
+                        "nombre": "L. de altura tibial lateral",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":28
+                },
+                {
+                        "label": "Trocantéreal",
+                        "nombre": "L. de altura trocantéreal",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":29
+                },
+                {
+                        "label": "Midstylion-dactylion",
+                        "nombre": "L. de midstylion-dactylion",
+                        "nivel": "ISAK II",
+                        "code":30
+                },
+                {
+                        "label": "Radiale-stylion",
+                        "nombre": "L. de radiale-stylion",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":31
+                },
+                {
+                        "label": "Tibiale mediale-shyrion tibial",
+                        "nombre": "L. de tibiale mediale-sphyrion tibial",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":32
+                },
+                {
+                        "label": "Trochanterion-tiabale laterale",
+                        "nombre": "L. de trochanterion-tiabale laterale",
+                        "nivel": "ISAK II",
+                        "code":33
+                }
+        ],
+        "Diámetros": [
+                {
+                        "label": "Anteroposterior del tórax",
+                        "nombre": "D. anteroposterior del tórax",
+                        "nivel": "ISAK II",
+                        "code":34
+                },
+                {
+                        "label": "Biacromial",
+                        "nombre": "D. biacromial",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":35
+                },
+                {
+                        "label": "Biepicondileo de fémur",
+                        "nombre": "D. biepicondileo de fémur",
+                        "nivel": "ISAK I"
+                        ,
+                        "code":36
+                },
+                {
+                        "label": "Biepicondileo de humero",
+                        "nombre": "D. biepicondileo del húmero",
+                        "nivel": "ISAK I",
+                        "code":37
+                },
+                {
+                        "label": "Biestiloideo",
+                        "nombre": "D. biestiloideo",
+                        "nivel": "ISAK II",
+                        "code":38
+                },
+                {
+                        "label": "Biliocrestal",
+                        "nombre": "D. biiliocrestal",
+                        "nivel": "ISAK II",
+                        "code":39
+                },
+                {
+                        "label": "Longitud de pie",
+                        "nombre": "D. longitud del pie",
+                        "nivel": "ISAK II",
+                        "code":40
+                },
+                {
+                        "label": "Sagital abdominal",
+                        "nombre": "D. sagital abdominal",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":41
+                },
+                {
+                        "label": "Transverso del tórax",
+                        "nombre": "D. transverso del tórax",
+                        "nivel": "ISAK II"
+                        ,
+                        "code":42
+                }
+        ]
+}

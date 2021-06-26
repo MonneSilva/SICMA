@@ -1,0 +1,802 @@
+{"title": "Historial Clinico",
+    "description":"",
+    "autoValidated": true,
+    "fields":[  
+        {
+            "key": "_id",
+            "title":"_id",
+            "type":"Hidden",
+            "label":"Tipo"
+        },
+        {
+            "key": "paciente_id",
+            "title":"paciente_id",
+            "type":"Hidden",
+            "label":"Tipo"
+        },
+        {          
+            "title":"tipo",
+            "key": "tipo",
+            "type": "Select",
+            "label":"Tipo",
+            "items": [
+                {
+                    "label": "Nutricional",
+                    "value": "Nutricional"
+                },
+                {
+                    "label": "Deportivo-Nutricional",
+                    "value": "Deportivo"
+                }
+            ]
+
+        },
+        {
+            "key": "fecha",
+            "title":"fecha",
+            "type":"Hidden",
+            "label":"Tipo"
+        },
+        {
+            "key": "enfermedades",
+            "type": "Checkbox",
+            "label": "Enfermedades",
+            "items": [
+                {
+                    "label":"Renales",
+                    "value":false
+                },
+                {
+                    "label":"Obesidad",
+                    "value":false
+                },
+                {
+                    "label":"Desnutrición",
+                    "value":false
+                },
+                {
+                    "label":"Hipertensión arterial",
+                    "value":false
+                },
+                {
+                    "label":"Enfermedades de la sangre",
+                    "value":false
+                },
+                {
+                    "label":"Gastrointestinales",
+                    "value":false
+                }
+            ]
+          },
+            {          
+                "title":"aseoDiario",
+                "key": "aseoDiario",
+                "type": "Select",
+                "label":"Aseo diario",
+                "items": [
+                    {
+                        "label": "Si",
+                        "value": "Si"
+                    },
+                    {
+                        "label": "Ocasional",
+                        "value": "Ocasional"
+                    },
+                    {
+                        "label": "No",
+                        "value": "No"
+                    }
+                ]
+    
+            },
+            {          
+                "title":"higieneDental",
+                "key": "higieneDental",
+                "type": "Select",
+                "label":"Higiene dental",
+                "items": [
+                    {
+                        "label": "Mala",
+                        "value": "Mala"
+                    },
+                    {
+                        "label": "Regular",
+                        "value": "Regular"
+                    },
+                    {
+                        "label": "Buena",
+                        "value": "Buena"
+                    },
+                    {
+                        "label": "Excelente",
+                        "value": "Excelente"
+                    }
+                ]
+            },
+            {          
+                "title":"apetito",
+                "key": "apetito",
+                "type": "Select",
+                "label":"Apetito",
+                "items": [
+                    {
+                        "label": "Malo",
+                        "value": "Malo"
+                    },
+                    {
+                        "label": "Bueno",
+                        "value": "Bueno"
+                    }
+                ]
+            },
+            {          
+                "title":"mayorApetito",
+                "key": "mayorApetito",
+                "type": "Select",
+                "label":"Mayor apetito",
+                "items": [
+                    {
+                        "label": "Mañana",
+                        "value": "Mañana"
+                    },
+                    {
+                        "label": "Media mañana",
+                        "value": "Media mañana"
+                    },
+                    {
+                        "label": "Tarde",
+                        "value": "Tarde"
+                    },
+                    {
+                        "label": "Media Tarde",
+                        "value": "Media Tarde"
+                    }
+                    ,
+                    {
+                        "label": "Noche",
+                        "value": "Noche"
+                    }
+                ]
+            },
+            {
+                "key": "comidas",
+                "type": "Checkbox",
+                "label": "Comidas realizadas al día",
+                "items": [
+                    {
+                        "label":"Desayuno",
+                        "value":false
+                    },
+                    {
+                        "label":"Comida",
+                        "value":false
+                    },
+                    {
+                        "label":"Cena",
+                        "value":false
+                    },
+                    {
+                        "label":"Entre comidas",
+                        "value":false
+                    }
+                ]
+              },
+            {          
+                "title":"dondeCome",
+                "key": "dondeCome",
+                "type": "Select",
+                "label":"¿Dónde come? ",
+                "items": [
+                    {
+                        "label": "Casa",
+                        "value": "Casa"
+                    },
+                    {
+                        "label": "Escuela / trabajo",
+                        "value": "Escuela / trabajo"
+                    },
+                    {
+                        "label": "Sitio ambulante",
+                        "value": "Sitio ambulante"
+                    },
+                    {
+                        "label": "Restaurantes",
+                        "value": "Restaurantes"
+                    }
+                ]
+            },
+            {        
+                "title":"compania",
+                "key": "compania",
+                "type": "Select",
+                
+                "label":"¿Con quién come? ",
+                "items": [
+                    {
+                        "label": "Miembros de mi familia",
+                        "value": "Miembros de mi familia"
+                    },
+                    {
+                        "label": "Pareja",
+                        "value": "Pareja"
+                    },
+                    {
+                        "label": "Compañeros/amigos",
+                        "value": "Compañeros/amigos"
+                    },
+                    {
+                        "label": "Solo",
+                        "value": "Solo"
+                    }
+                ]
+            },
+            {        
+                "title":"preparador",
+                "key": "select1",
+                "type": "Select",
+                
+                "label":"¿Quién prepara? ",
+                "items": [
+                    {
+                        "label": "Miembros de mi familia",
+                        "value": "Miembros de mi familia"
+                    },
+                    {
+                        "label": "Pareja",
+                        "value": "Pareja"
+                    },
+                    {
+                        "label": "Compañeros/amigos",
+                        "value": "Compañeros/amigos"
+                    },
+                    {
+                        "label": "Yo",
+                        "value": "Yo"
+                    }
+                    ,
+                    {
+                        "label": "Otros",
+                        "value": "Otros"
+                    }
+                ]
+            },
+            {
+                "key": "comerMismaHora",
+                "type": "Switch",
+                "title": "comerMismaHora",
+                "label": "¿Suele comer a la misma hora?",
+                "value": false
+            },
+            {
+                "key": "comerMismaHora",
+                "type": "Switch",
+                "title": "comerMismaHora",
+                "label": "¿Suele saltarse comidas?",
+                "value": false
+            },
+            {
+                "key": "tipoAlimentos",
+                "title":"tipoAlimentos",
+                "type":"Input",
+                "label": "Tipo de alimentos que se ingieren con regularidad",
+                "placeholder": "vegetales"
+            },
+            {
+                "key": "preparaciones",
+                "type": "Checkbox",
+                "label": "Preparaciones",
+                "items": [
+                    {
+                        "label":"Asado",
+                        "value":false
+                    },
+                    {
+                        "label":"Frito",
+                        "value":false
+                    },
+                    {
+                        "label":"Al vapor",
+                        "value":false
+                    },
+                    {
+                        "label":"Guisado",
+                        "value":false
+                    },
+                    {
+                        "label":"Plancha",
+                        "value":false
+                    },
+                    {
+                        "label":"Empanizados",
+                        "value":false
+                    }
+                ]
+              },
+              {
+                "key": "grasas",
+                "type": "Checkbox",
+                "label": "Grasas",
+                "items": [
+                    {
+                        "label":"Margarina",
+                        "value":false
+                    },
+                    {
+                        "label":"Aceite Vegetal",
+                        "value":false
+                    },
+                    {
+                        "label":"Manteca",
+                        "value":false
+                    },
+                    {
+                        "label":"Mantequilla",
+                        "value":false
+                    }
+                ]
+              },
+              {
+                "key": "sal",
+                "type": "Switch",
+                "title": "sal",
+                "label": "¿Agrega sal a los alimentos preparados?",
+                "value": false
+            },
+            {
+                "key": "alimentosIntolerantes",
+                  "title":"alimentosIntolerantes",
+                  "type":"Input",
+                  "label":"Alimentos intolerantes"
+            },
+            {
+                "key": "alimentosNoAgrado",
+                  "title":"alimentosNoAgrado",
+                  "type":"Input",
+                  "label":"Alimentos no agrado"
+            },
+            {
+                "key": "alimentosApetecen",
+                  "title":"alimentosApetecen",
+                  "type":"Input",
+                  "label":"Alimentos que más apetecen"
+            },
+            {
+                "key": "animo",
+                "type": "Switch",
+                "title": "animo",
+                "label": "¿Su estado de animo interfiere en su apetito?",
+                "value": false
+            },
+            {
+                "key": "modificacion",
+                "type": "Switch",
+                "title": "modificacion",
+                "label": "¿En los últimos 6 meses a modificado su alimetación?",
+                "value": false
+            },
+            {
+                "key": "causa",
+                  "title":"causa",
+                  "type":"Input",
+                  "label":"Causa"
+            },
+            {
+                "key": "agregado",
+                "type": "Switch",
+                "title": "agregado",
+                "label": "¿Agrega azúcar, crema, leche o sustitutos a bebidas?",
+                "value": false
+            },
+            {
+                "key": "alchohol",
+                "type": "Switch",
+                "title": "alchohol",
+                "label": "¿Consume alcohol?",
+                "value": false
+            },
+            {
+                "key": "tabaco",
+                "type": "Switch",
+                "title": "tabaco",
+                "label":"¿Ingiere tabaco?",
+                "value": false
+            },
+            {
+                "key": "medicamentos",
+                  "title":"medicamentos",
+                  "type":"Input",
+                  "label":"Medicamentos"
+                  
+            },
+            {
+                "key": "suplemento",
+                "type": "Switch",
+                "title": "suplemento",
+                "label":"¿Ingiere suplementos?",
+                "value": false
+            },
+            {
+                "key": "suplementos",
+                  "title":"suplementos",
+                  "type":"Input",
+                  "label":"Suplementos"
+            },
+            {
+                "key": "inputKey",
+                  "title":"dosis",
+                  "type":"Input",
+                  "label":"Dosis"
+            },
+            {
+                "key": "valoracionNutricional",
+                  "title":"valoracionNutricional",
+                  "type":"Input",
+                  "label":"Valoracion nutricional"
+            },
+            {
+                "key": "edadAF",
+                  "title":"edadAF",
+                  "type":"Input",
+                  "label":"Edad en la qeu comenzo la actividad física"
+            },
+            {
+                "key": "deportesAnteriores",
+                  "title":"deportesAnteriores",
+                  "type":"Input",
+                  "label":"Deportes anteriores"
+            },
+            {
+                "key": "sedentario",
+                "type": "Switch",
+                "title": "sedentario",
+                "label":"Sedentario",
+                "value": false
+            },
+            {
+                "key": "imposibilidades",
+                  "title":"imposibilidades",
+                  "type":"Input",
+                  "label":"Imposibilidades"
+            },
+            {
+                "key": "inputKey",
+                  "title":"malestares",
+                  "type":"Input",
+                  "label":"Malestares"
+            },
+            {
+                "key": "desidratacion",
+                "type": "Switch",
+                "title": "desidratacion",
+                "label":"Deshidratacion",
+                "value": false
+            },
+            {
+                "key": "habitual",
+                "type": "Switch",
+                "title": "habitual",
+                "label":"Habitual",
+                "value": false
+            },
+            {
+                "key": "nombre",
+                  "title":"nombre",
+                  "type":"Input",
+                  "label":"Nombre"
+            },
+            {          
+                "title":"faseEntto",
+                "key": "faseEntto",
+                "type": "Select",
+                
+                "label":"Fase de entrenamiento",
+                "items": [
+                    {
+                        "label": "Descanso",
+                        "value": "Descanso"
+                    },
+                    {
+                        "label": "Base",
+                        "value": "Base"
+                    },
+                    {
+                        "label": "Preparatoria",
+                        "value": "Preparatoria"
+                    },
+                    {
+                        "label": "Precompetitiva",
+                        "value": "Precompetitiva"
+                    },
+                    {
+                        "label": "Competitiva",
+                        "value": "Competitiva"
+                    }
+                ]
+    
+            },
+            {
+                "key": "horaDia",
+                  "title":"horaDia",
+                  "type":"Input",
+                  "label":"Horas al día"
+            },
+            {
+                "key": "modalidad",
+                  "title":"modalidad",
+                  "type":"Input",
+                  "label":"Modalidad"
+            },
+            {
+                "key": "posiciones",
+                  "title":"posiciones",
+                  "type":"Input",
+                  "label":"Posiciones"
+            },
+            {          
+                "title":"grupoSangre",
+                "key": "grupoSangre",
+                "type": "Select",
+                
+                "label":"Grupo de sangre",
+                "items": [
+                    {
+                        "label": "O",
+                        "value": "O"
+                    },
+                    {
+                        "label": "A",
+                        "value": "A"
+                    },
+                    {
+                        "label": "B",
+                        "value": "B"
+                    },
+                    {
+                        "label": "AB",
+                        "value": "AB"
+                    }
+                ]
+    
+            },
+            {          
+                "title":"rh",
+                "key": "rh",
+                "type": "Select",
+                
+                "label":"Rh",
+                "items": [
+                    {
+                        "label": "+",
+                        "value": "+"
+                    },
+                    {
+                        "label": "-",
+                        "value": "-"
+                    }
+                ]
+    
+            },
+            {
+                "key": "transfucion",
+                "type": "Switch",
+                "title": "transfucion",
+                "label":"Transfucion",
+                "value": false
+            },
+            {
+                "key": "motivo",
+                  "title":"motivo",
+                  "type":"Input",
+                  "label":"motivo"
+            },
+            {
+                "key": "periodoTransfusion",
+                  "title":"periodoTransfusion",
+                  "type":"Input",
+                  "label":"periodoTransfusion"
+            },
+                {
+                    "key": "desmayo",
+                    "type": "Switch",
+                    "title": "desmayo",
+                    "label":"Desmayo",
+                    "value": false
+                },
+                {
+                    "key": "operacion",
+                    "type": "Switch",
+                    "title": "operacion",
+                    "label":"operacion",
+                    "value": false
+                },
+                {
+                    "key": "operaciones",
+                      "title":"operaciones",
+                      "type":"Input",
+                      "label":"operaciones"
+                },
+                {
+                    "key": "enfermedades",
+                    "type": "Checkbox",
+                    "label": "Enfermedades",
+                    "items": [
+                        {
+                            "label":"Dolor de cabeza",
+                            "value":false
+                        },{
+                            "label":"Enfermedades de la sangre",
+                            "value":false
+                        },{
+                            "label":"Gastrointestinales",
+                            "value":false
+                        },{
+                            "label":"Escarlatina",
+                            "value":false
+                        },{
+                            "label":"Paperas",
+                            "value":false
+                        },
+                        {
+                            "label":"Sarampión",
+                            "value":false
+                        },{
+                            "label":"Varicela",
+                            "value":false
+                        },{
+                            "label":"Rubeola",
+                            "value":false
+                        },{
+                            "label":"Hepatitis A",
+                            "value":false
+                        },{
+                            "label":"Hepatitis BC",
+                            "value":false
+                        },{
+                            "label":"Incapacidad",
+                            "value":false
+                        }
+                        
+                    ]
+                  },
+                  {
+                    "key": "internamiento",
+                    "type": "Switch",
+                    "title": "internamiento",
+                    "label":"internamiento",
+                    "value": false
+                },
+                {
+                    "key": "alergia",
+                    "type": "Switch",
+                    "title": "alergia",
+                    "label":"alergia",
+                    "value": false
+                },
+                {
+                    "key": "alergMedicamentos",
+                      "title":"alergMedicamentos",
+                      "type":"Input",
+                      "label":"Alergia a medicamentos"
+                      
+                  },
+                  {
+                    "key": "alergAlimentos",
+                      "title":"alergAlimentos",
+                      "type":"Input",
+                      "label":"Alergia a alimentos"
+                      
+                  },
+                  {
+                    "key": "alergOtros",
+                      "title":"alergOtros",
+                      "type":"Input",
+                      "label":"Otras alergias"
+                      
+                  },
+                  {
+                    "key": "lesiones",
+                    "type": "Checkbox",
+                    "label": "Lesiones",
+                    "items": [
+                        {
+                            "label":"Cabeza",
+                            "value":false
+                        },
+                        {
+                            "label":"Codos",
+                            "value":false
+                        },
+                        {
+                            "label":"Rodillas",
+                            "value":false
+                        },
+                        {
+                            "label":"Hombros",
+                            "value":false
+                        },
+                        {
+                            "label":"Muñecas",
+                            "value":false
+                        },
+                        {
+                            "label":"Tobillos",
+                            "value":false
+                        },
+                        {
+                            "label":"Brazos",
+                            "value":false
+                        },
+                        {
+                            "label":"Manos",
+                            "value":false
+                        },
+                        {
+                            "label":"Columna vertebral",
+                            "value":false
+                        },
+                        {
+                            "label":"Tórax",
+                            "value":false
+                        },
+                        {
+                            "label":"Costillas",
+                            "value":false
+                        },
+                        {
+                            "label":"Piernas",
+                            "value":false
+                        },
+                        {
+                            "label":"Muslos",
+                            "value":false
+                        },
+                        {
+                            "label":"Clavícula",
+                            "value":false
+                        }
+                    ]
+                  },
+                  {
+                    "key": "inicioMenarca",
+                    "type": "Switch",
+                    "title": "inicioMenarca",
+                    "label": "Inicio de menarca",
+                    "value": false
+                    },
+                    {
+                        "key": "edadInicio",
+                          "title":"edadInicio",
+                          "type":"Input",
+                          "label":"Edad inicio"
+                          
+                      },
+                      {
+                        "key": "gestacion",
+                          "title":"gestacion",
+                          "type":"Input",
+                          "label":"gestacion"
+                          
+                      },
+                      {
+                        "key": "aborto",
+                          "title":"aborto",
+                          "type":"Input",
+                          "label":"aborto"
+                          
+                      },
+                      {
+                        "key": "cesarea",
+                          "title":"cesarea",
+                          "type":"Input",
+                          "label":"cesarea"
+                    },
+                    {
+                    "key": "regularidad",
+                    "type": "Switch",
+                    "title": "regularidad",
+                    "label": "Regularidad",
+                    "value": false
+                    }
+    ]
+}
+           

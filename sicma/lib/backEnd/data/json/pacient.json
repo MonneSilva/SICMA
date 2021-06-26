@@ -1,0 +1,493 @@
+{
+  "sexo": [
+    {
+      "label": "Femenino",
+      "value": "Femenino"
+    },
+    {
+      "label": "Masculino",
+      "value": "Masculino"
+    }
+  ],
+  "escolaridad": [
+    {
+      "label": "Ninguno",
+      "value": "Ninguno"
+    },
+    {
+      "label": "Preescolar",
+      "value": "Preescolar"
+    },
+    {
+      "label": "Primaria",
+      "value": "Primaria"
+    },
+    {
+      "label": "Secundaria",
+      "value": "Secundaria"
+    },
+    {
+      "label": "Media superior",
+      "value": "Media superior"
+    },
+    {
+      "label": "Superior",
+      "value": "Superior"
+    },
+    {
+      "label": "Postgrado",
+      "value": "Postgrado"
+    }
+  ],
+  "religion": [
+    {
+      "label": "Católica",
+      "value": "Católica"
+    },
+    {
+      "label": "Protestante histórica",
+      "value": "Protestante histórica"
+    },
+    {
+      "label": "Pentecostal",
+      "value": "Pentecostal"
+    },
+    {
+      "label": "Evangélica",
+      "value": "Evangélica"
+    },
+    {
+      "label": "Adventista del séptimo día",
+      "value": "Adventista del séptimo día"
+    },
+    {
+      "label": "Mormona",
+      "value": "Mormona"
+    },
+    {
+      "label": "Testigo de Jehová",
+      "value": "Testigo de Jehová"
+    },
+    {
+      "label": "Judaica",
+      "value": "Judaica"
+    },
+    {
+      "label": "Budismo",
+      "value": "Budismo"
+    },
+    {
+      "label": "Islámica",
+      "value": "Islámica"
+    },
+    {
+      "label": "Nativista",
+      "value": "Nativista"
+    },
+    {
+      "label": "Espiritualista",
+      "value": "Espiritualista"
+    },
+    {
+      "label": "Sin religión",
+      "value": "Sin religión"
+    },
+    {
+      "label": "Otra religión",
+      "value": "Otra religión"
+    }
+  ],
+  "edoCivil": [
+    {
+      "label": "Soltero",
+      "value": "Soltero"
+    },
+    {
+      "label": "Casado",
+      "value": "Casado"
+    },
+    {
+      "label": "Divorciado",
+      "value": "Divorciado"
+    },
+    {
+      "label": "Viudo",
+      "value": "Viudo"
+    }
+  ],
+  "tipoConsulta": [
+    {
+      "label": "Nutricional",
+      "value": "Nutricional"
+    },
+    {
+      "label": "Deportivo-Nutricional",
+      "value": "Deportivo"
+    }
+  ],
+  "enfermedades": {
+    "heredofamiliares": [
+      {
+        "nombre": "Renales",
+        "estado": false
+      },
+      {
+        "nombre": "Obesidad",
+        "estado": false
+      },
+      {
+        "nombre": "Desnutrición",
+        "estado": false
+      },
+      {
+        "nombre": "Hipertensión arterial",
+        "estado": false
+      },
+      {
+        "nombre": "Enfermedades de la sangre",
+        "estado": false
+      },
+      {
+        "nombre": "Gastrointestinales",
+        "estado": false
+      }
+    ],
+    "personales": [
+      {
+        "nombre": "Dolor de cabeza",
+        "estado": false
+      },
+      {
+        "nombre": "Enfermedades de la sangre",
+        "estado": false
+      },
+      {
+        "nombre": "Gastrointestinales",
+        "estado": false
+      },
+      {
+        "nombre": "Escarlatina",
+        "estado": false
+      },
+      {
+        "nombre": "Paperas",
+        "estado": false
+      },
+      {
+        "nombre": "Sarampión",
+        "estado": false
+      },
+      {
+        "nombre": "Varicela",
+        "estado": false
+      },
+      {
+        "nombre": "Rubeola",
+        "estado": false
+      },
+      {
+        "nombre": "Hepatitis A",
+        "estado": false
+      },
+      {
+        "nombre": "Hepatitis BC",
+        "estado": false
+      },
+      {
+        "nombre": "Incapacidad",
+        "estado": false
+      }
+    ]
+  },
+  "lesiones": [
+    {
+      "nombre": "Cabeza",
+      "estado": false
+    },
+    {
+      "nombre": "Codos",
+      "estado": false
+    },
+    {
+      "nombre": "Rodillas",
+      "estado": false
+    },
+    {
+      "nombre": "Hombros",
+      "estado": false
+    },
+    {
+      "nombre": "Muñecas",
+      "estado": false
+    },
+    {
+      "nombre": "Tobillos",
+      "estado": false
+    },
+    {
+      "nombre": "Brazos",
+      "estado": false
+    },
+    {
+      "nombre": "Manos",
+      "estado": false
+    },
+    {
+      "nombre": "Columna vertebral",
+      "estado": false
+    },
+    {
+      "nombre": "Tórax",
+      "estado": false
+    },
+    {
+      "nombre": "Costillas",
+      "estado": false
+    },
+    {
+      "nombre": "Piernas",
+      "estado": false
+    },
+    {
+      "nombre": "Muslos",
+      "estado": false
+    },
+    {
+      "nombre": "Clavícula",
+      "estado": false
+    }
+  ],
+  "valores": [
+    {
+      "label": "Malo",
+      "value": "Malo"
+    },
+    {
+      "label": "Bueno",
+      "value": "Bueno"
+    }
+  ],
+  "denotaciones":[
+  {
+    "label": "Si",
+    "value": "Si"
+},
+{
+    "label": "Ocasional",
+    "value": "Ocasional"
+},
+{
+    "label": "No",
+    "value": "No"
+}],
+  "estados": [
+    {
+      "label": "Mala",
+      "value": "Mala"
+    },
+    {
+      "label": "Regular",
+      "value": "Regular"
+    },
+    {
+      "label": "Buena",
+      "value": "Buena"
+    },
+    {
+      "label": "Excelente",
+      "value": "Excelente"
+    }
+  ],
+  "comidas": [
+    {
+      "nombre": "Desayuno",
+      "value": false
+    },
+    {
+      "nombre": "Comida",
+      "value": false
+    },
+    {
+      "nombre": "Cena",
+      "value": false
+    },
+    {
+      "nombre": "Entre comidas",
+      "estado": false
+    }
+  ],
+  "lugar": [
+    {
+      "label": "Casa",
+      "value": "Casa"
+    },
+    {
+      "label": "Escuela / trabajo",
+      "value": "Escuela / trabajo"
+    },
+    {
+      "label": "Sitio ambulante",
+      "value": "Sitio ambulante"
+    },
+    {
+      "label": "Restaurantes",
+      "value": "Restaurantes"
+    }
+  ],
+  "compania": [
+    {
+      "label": "Miembros de mi familia",
+      "value": "Miembros de mi familia"
+    },
+    {
+      "label": "Pareja",
+      "value": "Pareja"
+    },
+    {
+      "label": "Compañeros/amigos",
+      "value": "Compañeros/amigos"
+    },
+    {
+      "label": "Solo",
+      "value": "Solo"
+    }
+  ],
+  "preparador": [
+    {
+      "label": "Miembros de mi familia",
+      "value": "Miembros de mi familia"
+    },
+    {
+      "label": "Pareja",
+      "value": "Pareja"
+    },
+    {
+      "label": "Compañeros/amigos",
+      "value": "Compañeros/amigos"
+    },
+    {
+      "label": "Yo",
+      "value": "Yo"
+    },
+    {
+      "label": "Otros",
+      "value": "Otros"
+    }
+  ],
+  "preparaciones": [
+    {
+      "nombre": "Asado",
+      "estado": false
+    },
+    {
+      "nombre": "Frito",
+      "estado": false
+    },
+    {
+      "nombre": "Al vapor",
+      "estado": false
+    },
+    {
+      "nombre": "Guisado",
+      "estado": false
+    },
+    {
+      "nombre": "Plancha",
+      "estado": false
+    },
+    {
+      "nombre": "Empanizados",
+      "estado": false
+    }
+  ],
+  "grasas": [
+    {
+      "nombre": "Margarina",
+      "estado": false
+    },
+    {
+      "nombre": "Aceite Vegetal",
+      "estado": false
+    },
+    {
+      "nombre": "Manteca",
+      "estado": false
+    },
+    {
+      "nombre": "Mantequilla",
+      "estado": false
+    }
+  ],
+  "fasseEnto": [
+    {
+      "label": "Descanso",
+      "value": "Descanso"
+    },
+    {
+      "label": "Base",
+      "value": "Base"
+    },
+    {
+      "label": "Preparatoria",
+      "value": "Preparatoria"
+    },
+    {
+      "label": "Precompetitiva",
+      "value": "Precompetitiva"
+    },
+    {
+      "label": "Competitiva",
+      "value": "Competitiva"
+    }
+  ],
+  "grupoSangre": [
+    {
+      "label": "O",
+      "value": "O"
+    },
+    {
+      "label": "A",
+      "value": "A"
+    },
+    {
+      "label": "B",
+      "value": "B"
+    },
+    {
+      "label": "AB",
+      "value": "AB"
+    }
+  ],
+  "rh": [
+    {
+      "label": "+",
+      "value": "+"
+    },
+    {
+      "label": "-",
+      "value": "-"
+    }
+  ],
+  "tiempo": [
+    {
+      "label": "Mañana",
+      "value": "Mañana"
+    },
+    {
+      "label": "Media mañana",
+      "value": "Media mañana"
+    },
+    {
+      "label": "Tarde",
+      "value": "Tarde"
+    },
+    {
+      "label": "Media Tarde",
+      "value": "Media Tarde"
+    },
+    {
+      "label": "Noche",
+      "value": "Noche"
+    }
+  ]
+}

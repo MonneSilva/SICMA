@@ -1,0 +1,21 @@
+{
+    "_id":1,
+    "estado":true,
+    "nombre":{
+      "nombre":"José Emiliano",
+      "apellidoPat":"Pérez",
+      "apellidoMat":"Moreira"
+    },
+    "sexo":"Masculino",
+    "fechaNacimiento":"20/01/1972", 
+    "lugarNacimiento":"Ciudad de México",
+    "ocupacion":"Ingeniero",
+    "escolaridad":"Preparatoria",
+    "religion":"Cátolica",
+    "edoCivil":"Casado",
+    "contacto":{
+      "telefono":"7688831",
+      "correo":"correo@correo.com"
+    },
+    "fechaRegistro":"20/02/2020 10:00:00"
+}  
