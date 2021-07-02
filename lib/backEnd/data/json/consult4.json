@@ -1,0 +1,63 @@
+{
+  "title": "Consulta",
+  "description": "Formulario de consultas",
+  "autoValidated": true,
+  "fields": 
+  [
+    {
+      "key": "medida",
+      "label": "Pliegues cutáneos",
+      "type": "Group",
+      "fields": [
+        {
+          "label": "Abdominal",
+          "key": "Pl. de abdominal","unit": "cm","editable":true,
+          "nivel": "ISAK I","type": "Measure",
+          "code": 5
+        },
+        {
+          "label": "Bíceps",
+          "key": "Pl. de bíceps","type": "Measure","unit": "cm","editable":true,
+          "nivel": "ISAK I",
+          "code": 6
+        },
+        {
+          "label": "Cresta ilíaca","unit": "cm","editable":true,
+          "key": "Pl. de cresta ilíaca","type": "Measure",
+          "nivel": "ISAK I",
+          "code": 7
+        },
+        {
+          "label": "Muslo anterior",
+          "key": "Pl. de muslo anterior","type": "Measure","unit": "cm","editable":true,
+          "nivel": "ISAK I",
+          "code": 8
+        },
+        {
+          "label": "Pierna medial",
+          "key": "Pl. de pierna medial","type": "Measure","unit": "cm","editable":true,
+          "nivel": "ISAK I",
+          "code": 9
+        },
+        {
+          "label": "Subescapular",
+          "key": "Pl. de subescapular","type": "Measure",
+          "nivel": "ISAK I","unit": "cm","editable":true,
+          "code": 10
+        },
+        {
+          "label": "Supraespinal",
+          "key": "Pl. de supraespinal","type": "Measure","unit": "cm","editable":true,
+          "nivel": "ISAK I",
+          "code": 11
+        },
+        {
+          "label": "Tríceps",
+          "key": "Pl. de tríceps","type": "Measure","unit": "cm","editable":true,
+          "nivel": "ISAK I",
+          "code": 12
+        }
+      ]
+    }
+  ]
+}

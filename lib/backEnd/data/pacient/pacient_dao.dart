@@ -47,29 +47,19 @@ class PacientDao {
 
   //get all listem from the db
   Future<List<Pacient>> getAll() async {
-    //sort the _todo item in order of their timestamp
-    //that is entry time
     final finder = Finder();
-
-    //get the data
     final snapshot = await _store.find(
       await _db,
       finder: finder,
     );
 
-    //call the map operator on the data
-    //this is so we can assign the correct value to the id from the store
-    //After we return it as a list
-    var hD = HistoryDao();
     List all = snapshot.map((snapshot) {
       final todo = Pacient.fromMap(snapshot.key, snapshot.value);
       //todo.data.putIfAbsent('_id', () => snapshot.value);
       // print("id:" + todo.id.toString() + ", data:" + todo.data.toString());
       return todo;
     }).toList();
-    all.forEach((element) async {
-      element.setHistory(await hD.exist('paciente_id', element.id));
-    });
+
     return all;
   }
 }

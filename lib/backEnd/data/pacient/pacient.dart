@@ -11,12 +11,12 @@ class Pacient {
   //all information is save here
   int id;
   Map<String, dynamic> data;
-  History history;
+  History history = new History(id: null, data: Map());
 
-  Pacient({@required this.id, @required this.data, @required this.history});
+  Pacient({@required this.id, @required this.data});
 
   static Pacient fromMap(int id, Map<String, dynamic> map) {
-    return Pacient(id: id, data: map, history: null);
+    return Pacient(id: id, data: map);
   }
 
   int get age {

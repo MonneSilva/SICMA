@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sicma/backEnd/data/history/history.dart';
+import 'package:sicma/backEnd/data/history/history_dao.dart';
 import 'package:sicma/backEnd/data/pacient/pacient.dart';
-//import 'package:sicma/backEnd/data/pacient.dart';
 import 'package:sicma/backEnd/data/pacient/pacient_dao.dart';
-//import 'package:sicma/backEnd/data/pacient_dao.dart';
-//import 'package:sembast/sembast.dart';
-//import 'package:sicma/backEnd/Database.dart';
-//import 'package:sicma/backEnd/data/pacient_dao.dart';
 
 class SearchScreenPaciente extends StatefulWidget {
   SearchScreenPaciente({Key key, this.title}) : super(key: key);
@@ -29,6 +26,17 @@ class _SearchScreenPacienteState extends State<SearchScreenPaciente> {
     _futureData = p.getAll();
   }
 
+  @override
+  void didUpdateWidget(covariant SearchScreenPaciente oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // TODO: implement dispose
+  }
+
   List<Pacient> filterSearch(List<Pacient> originals) {
     List<Pacient> results = new List();
     if (originals != null && searchString != null) {
@@ -49,7 +57,7 @@ class _SearchScreenPacienteState extends State<SearchScreenPaciente> {
     void handleClick(String value) {
       switch (value) {
         case '1':
-          Navigator.of(context).pushNamed('/Paciente/New');
+          Navigator.of(context).pushNamed('/Paciente/Form');
           break;
       }
     }
@@ -187,7 +195,7 @@ class _SearchScreenPacienteState extends State<SearchScreenPaciente> {
                                                       TextStyle(fontSize: 15),
                                                 ),
                                               ])),
-                                      onTap: () {
+                                      onTap: () async {
                                         switch (option) {
                                           case 1: //pacient detail
                                             Navigator.of(context).pushNamed(
@@ -195,9 +203,18 @@ class _SearchScreenPacienteState extends State<SearchScreenPaciente> {
                                                 arguments: pacient);
                                             break;
                                           case 2:
+                                            var hD = HistoryDao();
+                                            History history = await hD.exist(
+                                                'paciente_id', 10);
+                                            if (history != null)
+                                              pacient.setHistory(history);
                                             Navigator.of(context).pushNamed(
                                                 '/Consulta/New',
-                                                arguments: pacient);
+                                                arguments: [
+                                                  pacient,
+                                                  null,
+                                                  true
+                                                ]);
                                             break;
                                           case 3:
                                             Navigator.of(context).pushNamed(
@@ -234,16 +251,10 @@ class _SearchScreenPacienteState extends State<SearchScreenPaciente> {
                 ),
                 FlatButton(
                   child: Text('Aceptar'),
-                  onPressed: () {
+                  onPressed: () async {
                     var pD = PacientDao();
-                    pD.delete(p.id);
-                    _futureData = pD.getAll();
+                    await pD.delete(p.id);
                     Navigator.of(context).pop();
-
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      "/Paciente/Search",
-                      ModalRoute.withName('/Home'),
-                    );
                   },
                 )
               ],

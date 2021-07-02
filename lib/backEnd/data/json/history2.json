@@ -1,0 +1,288 @@
+{"title": "Historial Clinico",
+    "description":"",
+    "autoValidated": true,
+    "fields":[  
+        {          
+            "title":"grupoSangre",
+            "key": "grupoSangre",
+            "type": "Select",
+            
+            "label":"Grupo de sangre",
+            "items": [
+                {
+                    "label": "O",
+                    "value": "O"
+                },
+                {
+                    "label": "A",
+                    "value": "A"
+                },
+                {
+                    "label": "B",
+                    "value": "B"
+                },
+                {
+                    "label": "AB",
+                    "value": "AB"
+                }
+            ]
+
+        },
+        {          
+            "title":"rh",
+            "key": "rh",
+            "type": "Select",
+            
+            "label":"Rh",
+            "items": [
+                {
+                    "label": "+",
+                    "value": "+"
+                },
+                {
+                    "label": "-",
+                    "value": "-"
+                }
+            ]
+
+        },
+        {
+            "key": "transfucion",
+            "type": "Switch",
+            "title": "transfucion",
+            "label":"Transfucion",
+            "value": false
+        },
+        {
+            "key": "motivo",
+              "title":"motivo",
+              "type":"Input",
+              "label":"motivo"
+        },
+        {
+            "key": "periodoTransfusion",
+              "title":"periodoTransfusion",
+              "type":"Input",
+              "label":"periodoTransfusion"
+        },
+            {
+                "key": "desmayo",
+                "type": "Switch",
+                "title": "desmayo",
+                "label":"Desmayo",
+                "value": false
+            },
+            {
+                "key": "operacion",
+                "type": "Switch",
+                "title": "operacion",
+                "label":"operacion",
+                "value": false
+            },
+            {
+                "key": "operaciones",
+                  "title":"operaciones",
+                  "type":"Input",
+                  "label":"operaciones"
+            },
+            {
+                "key": "enfermedades",
+                "type": "Checkbox",
+                "label": "Enfermedades",
+                "items": [
+                    {
+                        "label":"Dolor de cabeza",
+                        "value":false
+                    },{
+                        "label":"Enfermedades de la sangre",
+                        "value":false
+                    },{
+                        "label":"Gastrointestinales",
+                        "value":false
+                    },{
+                        "label":"Escarlatina",
+                        "value":false
+                    },{
+                        "label":"Paperas",
+                        "value":false
+                    },
+                    {
+                        "label":"Sarampión",
+                        "value":false
+                    },{
+                        "label":"Varicela",
+                        "value":false
+                    },{
+                        "label":"Rubeola",
+                        "value":false
+                    },{
+                        "label":"Hepatitis A",
+                        "value":false
+                    },{
+                        "label":"Hepatitis BC",
+                        "value":false
+                    },{
+                        "label":"Incapacidad",
+                        "value":false
+                    }
+                    
+                ]
+              },
+              {
+                "key": "internamiento",
+                "type": "Switch",
+                "title": "internamiento",
+                "label":"internamiento",
+                "value": false
+            },
+            {
+                "key": "alergia",
+                "type": "Switch",
+                "title": "alergia",
+                "label":"alergia",
+                "value": false
+            },
+            {
+                "key": "alergMedicamentos",
+                  "title":"alergMedicamentos",
+                  "type":"Input",
+                  "label":"Alergia a medicamentos"
+                  
+              },
+              {
+                "key": "alergAlimentos",
+                  "title":"alergAlimentos",
+                  "type":"Input",
+                  "label":"Alergia a alimentos"
+                  
+              },
+              {
+                "key": "alergOtros",
+                  "title":"alergOtros",
+                  "type":"Input",
+                  "label":"Otras alergias"
+                  
+              },
+              {
+                "key": "fisicos",
+                  "title":"fisicos",
+                  "type":"Group",
+                  "label":"Físicos",
+                  "fields":[
+            
+              {
+                "key": "lesiones",
+                "type": "Checkbox",
+                "label": "Lesiones",
+                "items": [
+                    {
+                        "label":"Cabeza",
+                        "value":false
+                    },
+                    {
+                        "label":"Codos",
+                        "value":false
+                    },
+                    {
+                        "label":"Rodillas",
+                        "value":false
+                    },
+                    {
+                        "label":"Hombros",
+                        "value":false
+                    },
+                    {
+                        "label":"Muñecas",
+                        "value":false
+                    },
+                    {
+                        "label":"Tobillos",
+                        "value":false
+                    },
+                    {
+                        "label":"Brazos",
+                        "value":false
+                    },
+                    {
+                        "label":"Manos",
+                        "value":false
+                    },
+                    {
+                        "label":"Columna vertebral",
+                        "value":false
+                    },
+                    {
+                        "label":"Tórax",
+                        "value":false
+                    },
+                    {
+                        "label":"Costillas",
+                        "value":false
+                    },
+                    {
+                        "label":"Piernas",
+                        "value":false
+                    },
+                    {
+                        "label":"Muslos",
+                        "value":false
+                    },
+                    {
+                        "label":"Clavícula",
+                        "value":false
+                    }
+                ]
+              }
+            ]},
+            
+              {
+                "key": "ginecobstetricos",
+                "title": "ginecobstetricos",
+                "type": "Group",
+                "label": "Ginecobstetricos",
+                "fields": [
+              {
+                "key": "inicioMenarca",
+                "type": "Switch",
+                "title": "inicioMenarca",
+                "label": "Inicio de menarca",
+                "value": false
+                },
+                {
+                    "key": "edadInicio",
+                      "title":"edadInicio",
+                      "type":"Input",
+                      "label":"Edad inicio"
+                      
+                  },
+                  {
+                    "key": "gestacion",
+                      "title":"gestacion",
+                      "type":"Input",
+                      "label":"gestacion"
+                      
+                  },
+                  {
+                    "key": "aborto",
+                      "title":"aborto",
+                      "type":"Input",
+                      "label":"aborto"
+                      
+                  },
+                  {
+                    "key": "cesarea",
+                      "title":"cesarea",
+                      "type":"Input",
+                      "label":"cesarea"
+                },
+                {
+                "key": "regularidad",
+                "type": "Switch",
+                "title": "regularidad",
+                "label": "Regularidad",
+                "value": false
+                }
+    ]
+}]
+}
+           

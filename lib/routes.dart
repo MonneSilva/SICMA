@@ -7,8 +7,7 @@ import 'package:sicma/frontEnd/screens/home.dart';
 import 'package:sicma/frontEnd/screens/Report/search.dart';
 
 import 'package:sicma/frontEnd/screens/Paciente/search.dart';
-import 'package:sicma/frontEnd/screens/Paciente/new.dart';
-import 'package:sicma/frontEnd/screens/Paciente/edit.dart';
+import 'package:sicma/frontEnd/screens/Paciente/form.dart';
 import 'package:sicma/frontEnd/screens/Paciente/view.dart';
 
 import 'package:sicma/frontEnd/screens/Consulta/search.dart';
@@ -19,6 +18,7 @@ import 'package:sicma/frontEnd/screens/Historial/edit.dart';
 import 'package:sicma/frontEnd/screens/Historial/view.dart';
 import 'package:sicma/frontEnd/screens/userPreferences/userPreferences.dart';
 
+import 'frontEnd/screens/Consulta/form.dart';
 import 'frontEnd/screens/Historial/form.dart';
 
 final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
@@ -27,11 +27,11 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
   "/Reporte/Search": (BuildContext context) => new SearchScreenReporte(),
   "/Consulta/Search": (BuildContext context) => new SearchScreenConsulta(),
   "/Historial/Search": (BuildContext context) => new SearchScreenHistory(),
-  "/Paciente/New": (BuildContext context) => new NewScreenPaciente(),
+  "/Paciente/Form": (BuildContext context) => new FormScreenPaciente(),
   //"/Historial/New": (BuildContext context) => new NewScreenHistorial(),
   "/Historial/New": (BuildContext context) => new FormScreenHistorial(),
-  "/Consulta/New": (BuildContext context) => new NewScreenConsulta(),
-  "/Paciente/Edit": (BuildContext context) => new EditScreenPaciente(),
+  //"/Consulta/New": (BuildContext context) => new NewScreenConsulta(),
+  "/Consulta/New": (BuildContext context) => new FormScreenConsulta(),
   "/Historial/Edit": (BuildContext context) => new EditScreenHistorial(),
   "/Image": (BuildContext context) => new ToImage(),
 

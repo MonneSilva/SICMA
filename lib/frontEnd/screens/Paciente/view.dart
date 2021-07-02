@@ -54,7 +54,7 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
       isLoading = true;
     });
     String response = json.encode(json.decode(
-        await rootBundle.loadString("lib/backEnd/data/json/pacient.json")));
+        await rootBundle.loadString("lib/backEnd/data/json/consult.json")));
     if (response != null) {
       form = response;
       // print(form);
@@ -91,7 +91,7 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
   @override
   Widget build(BuildContext context) {
     final Pacient data = ModalRoute.of(context).settings.arguments as Pacient;
-    data.searchHistory();
+    // data.searchHistory();
     bool hasData = false;
 
     /* bool hasData = data.history ?? true;
@@ -126,6 +126,8 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                       size: 30,
                     ),
                     onPressed: () {
+                      /*  Navigator.of(context).pushNamedAndRemoveUntil(
+                          "/Paciente/Search", ModalRoute.withName('/Home'));*/
                       Navigator.of(context).pop();
                     },
                   ),
@@ -152,21 +154,15 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                         switch (value) {
                           case '1':
                             Navigator.of(context)
-                                .pushNamed('/Paciente/New', arguments: data);
+                                .pushNamed('/Paciente/Form', arguments: data);
                             break;
                           case '2':
                             var pD = PacientDao();
                             pD.delete(p.id);
-                            Navigator.of(context).pop();
-                            break;
-                          case '3':
-                            hasData
-                                ? Navigator.of(context).pushNamed(
-                                    '/Historial/New',
-                                    arguments: [data, true])
-                                : Navigator.of(context).pushNamed(
-                                    '/Historial/New',
-                                    arguments: [data, false]);
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                "/Paciente/Search",
+                                ModalRoute.withName('/Home'),
+                                arguments: p);
 
                             break;
                         }
@@ -180,27 +176,10 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                                       padding:
                                           const EdgeInsets.fromLTRB(2, 2, 8, 2),
                                       child: Icon(Icons.create,
-                                          color: Colors.black),
+                                          color: Colors.white),
                                     ),
-                                    Text('Editar'),
-                                  ],
-                                )),
-                            PopupMenuItem(
-                                value: '3',
-                                child: Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                                      child: hasData != null
-                                          ? Icon(Icons.visibility,
-                                              color: Colors.black)
-                                          : Icon(Icons.add_circle_outline,
-                                              color: Colors.black),
-                                    ),
-                                    Text(hasData
-                                        ? 'Ver Historial'
-                                        : 'Crear Historial'),
+                                    Text('Editar',
+                                        style: TextStyle(color: Colors.white)),
                                   ],
                                 )),
                             PopupMenuItem(
@@ -211,9 +190,12 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                                       padding:
                                           const EdgeInsets.fromLTRB(2, 2, 8, 2),
                                       child: Icon(Icons.cancel,
-                                          color: Colors.black),
+                                          color: Colors.white),
                                     ),
-                                    Text('Eliminar'),
+                                    Text('Eliminar',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        )),
                                   ],
                                 ))
                           ]),
@@ -376,7 +358,7 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                                                             color:
                                                                 Colors.white)))
                                               ])),
-                                      Padding(
+                                      /*  Padding(
                                           padding: EdgeInsets.all(10),
                                           child: Column(
                                               crossAxisAlignment:
@@ -399,7 +381,7 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                                                             fontSize: 10,
                                                             color:
                                                                 Colors.white)))
-                                              ]))
+                                              ]))*/
                                     ])
                               ],
                             )
@@ -421,66 +403,11 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                   Container(
                       padding: EdgeInsets.only(top: 30),
                       alignment: Alignment.topCenter,
-                      height: MediaQuery.of(context).size.height * 0.55,
+                      height: MediaQuery.of(context).size.height * 0.53,
                       child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            if (hasData)
-                              if (consult.data != null)
-                                Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Column(
-                                      children: [
-                                        Text('Última Consulta',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25,
-                                                color: Theme.of(context)
-                                                    .primaryColor)),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Text('Fecha',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    color: Colors.black)),
-                                            Padding(
-                                                padding: EdgeInsets.all(10),
-                                                child: Text(
-                                                    DateFormat('dd/MM/yyyy')
-                                                        .parse(consult
-                                                            .data['fecha'])
-                                                        .toString()
-                                                        .split(" ")[0],
-                                                    style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black))),
-                                          ],
-                                        ),
-                                        Text('Observación:',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15,
-                                                color: Colors.black)),
-                                        Text(
-                                            consult.data['observacion'] != null
-                                                ? consult.data['observacion']
-                                                : 'No hay observación',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: Colors.black)),
-                                        Padding(
-                                            padding: EdgeInsets.only(top: 20),
-                                            child: Container(
-                                              height: 1,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                            ))
-                                      ],
-                                    )),
                             Container(
                                 padding: EdgeInsets.all(10),
                                 child: Column(
@@ -518,6 +445,7 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                                                             color:
                                                                 Colors.black)))
                                               ]),
+                                          Text(''),
                                           Text('Correo electrónico:',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -534,7 +462,65 @@ class _ViewScreenPacienteState extends State<ViewScreenPaciente> {
                                                       color: Colors.black)))
                                         ],
                                       )
-                                    ]))
+                                    ])),
+                            Container(
+                                padding: EdgeInsets.only(top: 50),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      ButtonTheme(
+                                          minWidth: 150,
+                                          height: 50.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () async {
+                                                var hD = HistoryDao();
+                                                History history = await hD
+                                                    .exist('paciente_id', 10);
+                                                if (history != null)
+                                                  data.setHistory(history);
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                        '/Historial/New',
+                                                        arguments: data);
+                                              },
+                                              child:
+                                                  Text('Historial Clínico'))),
+                                      ButtonTheme(
+                                          minWidth: 150,
+                                          height: 50.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () async {
+                                                var hD = HistoryDao();
+                                                History history = await hD
+                                                    .exist('paciente_id', 10);
+                                                if (history != null)
+                                                  data.setHistory(history);
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                        '/Consulta/New',
+                                                        arguments: [
+                                                      data,
+                                                      null,
+                                                      true
+                                                    ]);
+                                              },
+                                              child: Text('Nueva Consulta')))
+                                    ])),
                           ]),
                       decoration: BoxDecoration(
                         borderRadius: new BorderRadius.only(

@@ -1,0 +1,210 @@
+{
+  "title": "Consulta",
+  "description": "Formulario de consultas",
+  "autoValidated": true,
+  "fields": [
+    {
+      "key": "planNutricional",
+      "type": "Section",
+      "title": "Plan Nutricional",
+      "fields": [
+        {
+          "key": "tipoDieta",
+          "title": "tipoDieta",
+          "type": "Input",
+          "label": "Tipo de dieta"
+      
+        },
+        {
+          "key": "observaciones",
+          "title": "observaciones",
+          "type": "Input",
+          "label": "Observaciones"
+    
+        },
+        {
+          "key": "calculoDietetico",
+          "type": "Group",
+          "label": "Cálculo Dietético",
+          "fields": [
+            {
+              "key": "GEB",
+              "title": "GEB",
+              "type": "Measure",
+              "label": "GEB","unit":""
+             
+            }, {
+              "key": "ETA",
+              "title": "ETA",
+              "type": "Measure",
+              "label": "ETA","unit":""
+             
+            },
+            {
+              "key": "GET",
+              "title": "GET",
+              "type": "Measure",
+              "label": "GET","unit":""
+             
+            }
+          ]
+        },
+        {
+          "key": "dietosienteticos",
+          "type": "Group",
+          "label": "Dieto sientéticos",
+          "fields": [
+           
+            {
+              "key": "gramos ",
+              "title": "gramos ",
+              "type": "Input",
+              "label": "Gramos "
+            },
+            {
+              "key": "calorias",
+              "title": "calorias",
+              "type": "Input",
+              "label": "Calorias"
+            },
+            {
+              "key": "porcentajes",
+              "title": "porcentajes",
+              "type": "Input",
+              "label": "Porcentajes"
+            }
+          ]
+        },
+        {
+          "key": "recordatorios",
+          "type": "Group",
+          "label": "Recordatorio 24hrs",
+          "fields": [
+            {
+              "title": "tiempo",
+              "key": "tiempo ",
+              "type": "Select",
+              "label": "Tiempo",
+              "items": [
+                {
+                  "label": "Desayuno",
+                  "value": "Desayuno"
+                },
+                {
+                  "label": "Comida",
+                  "value": "Comida"
+                },
+                {
+                  "label": "Cena",
+                  "value": "Cena"
+                },
+                {
+                  "label": "Entre comidas",
+                  "value": "Entre comidas"
+                }
+              ]
+            },
+            {
+              "key": "horario",
+              "title": "horario",
+              "type": "Input",
+              "label": "Horario"
+            },
+            {
+              "key": "alimentos",
+              "type": "Group",
+              "label": "Alimentos",
+              "fields": [
+                {
+                  "key": "alimento",
+                  "title": "alimento",
+                  "type": "Input",
+                  "label": "Alimento"
+                },
+                {
+                  "key": "cantidad",
+                  "title": "cantidad",
+                  "type": "Input",
+                  "label": "Cantidad"
+                },
+                {
+                  "key": "porcion ",
+                  "title": "porcion ",
+                  "type": "Input",
+                  "label": "Porcion "
+                },
+                {
+                  "key": "pt  ",
+                  "title": "pt  ",
+                  "type": "Input",
+                  "label": "PT "
+                },
+                {
+                  "key": "pt  ",
+                  "title": "pt  ",
+                  "type": "Input",
+                  "label": "PT "
+                },
+                {
+                  "key": "lip   ",
+                  "title": "lip   ",
+                  "type": "Input",
+                  "label": "LIP "
+                },
+                {
+                  "key": "hco",
+                  "title": "hco",
+                  "type": "Input",
+                  "label": "HCO"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "planes",
+          "type": "Group",
+          "label": "Plan",
+          "fields": [
+            {
+              "title": "tiempo",
+              "key": "tiempo ",
+              "type": "Select",
+              "label": "Tiempo",
+              "items": [
+                {
+                  "label": "Desayuno",
+                  "value": "Desayuno"
+                },
+                {
+                  "label": "Comida",
+                  "value": "Comida"
+                },
+                {
+                  "label": "Cena",
+                  "value": "Cena"
+                },
+                {
+                  "label": "Entre comidas",
+                  "value": "Entre comidas"
+                }
+              ]
+            },
+            {
+              "key": "horario",
+              "title": "horario",
+              "type": "Input",
+              "label": "Horario"
+            },
+            {
+              "key": "opciones",
+              "title": "opciones",
+              "type": "Input",
+              "label": "Opciones"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

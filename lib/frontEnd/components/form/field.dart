@@ -207,7 +207,7 @@ class _CustomFieldState extends State<CustomField> {
                   ]);
 
         break;
-        
+
       case "checkboxGroup":
         List<Widget> listWidget = [];
         List<Widget> checkboxes = [];

@@ -1,8 +1,7 @@
-//import 'dart:async';
 import 'dart:convert';
-import 'package:sembast/utils/value_utils.dart';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:sembast/utils/value_utils.dart';
 import 'package:flutter/services.dart';
 import 'package:sicma/backEnd/data/pacient/pacient.dart';
 import 'package:sicma/backEnd/data/pacient/pacient_dao.dart';
@@ -10,16 +9,16 @@ import 'package:intl/intl.dart';
 import 'package:sicma/frontEnd/components/form/field.dart';
 import 'package:sicma/frontEnd/components/form/row.dart';
 
-class NewScreenPaciente extends StatefulWidget {
-  NewScreenPaciente({Key key, this.title}) : super(key: key);
+class FormScreenPaciente extends StatefulWidget {
+  FormScreenPaciente({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _NewScreenPacienteState createState() => _NewScreenPacienteState();
+  _FormScreenPacienteState createState() => _FormScreenPacienteState();
 }
 
-class _NewScreenPacienteState extends State<NewScreenPaciente> {
+class _FormScreenPacienteState extends State<FormScreenPaciente> {
   final birthdate = new TextEditingController();
   Map form = new Map();
   Map data;
@@ -163,14 +162,22 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                 Padding(
                                   padding: EdgeInsets.only(bottom: 10),
                                   child: Text('Información Personal',
+                                      textAlign: TextAlign.center,
                                       style: new TextStyle(
                                           color: Theme.of(context).primaryColor,
-                                          fontWeight: FontWeight.normal,
+                                          fontWeight: FontWeight.bold,
                                           fontSize: 22.0)),
                                 ),
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text('*Campos obligatorios',
+                                          style: TextStyle(fontSize: 10))
+                                    ]),
                                 CustomField(
                                   keyName: 'nombre',
-                                  label: 'Nombre',
+                                  label: 'Nombre*',
                                   maxLength: 45,
                                   editable: true,
                                   isRequired: true,
@@ -193,13 +200,10 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                       form['nombre'] = name;
                                     }
                                     return null;
-                                  }, /*
-                                    onChanged: (value) {
-                                      print(value);
-                                    }*/
+                                  },
                                 ),
                                 CustomField(
-                                    label: 'Apellido Paterno',
+                                    label: 'Apellido Paterno*',
                                     maxLength: 45,
                                     editable: true,
                                     isRequired: true,
@@ -208,12 +212,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                     value: hasData
                                         ? form['nombre']['apellidoPat']
                                         : '',
-
-                                    //  formMap: form['nombre'],
-                                    /*onChanged: (dynamic response) {
-                                    this.form.addAll(response);
-                                  },*/
-
                                     validator: (value) {
                                       if (value.isEmpty ||
                                           !validateText(value)) {
@@ -231,11 +229,7 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                         form['nombre'] = name;
                                       }
                                       return null;
-                                    } /*
-                                    onChanged: (value) {
-                                      print(value);
-                                    }*/
-                                    ),
+                                    }),
                                 CustomField(
                                   label: 'Apellido Materno',
                                   maxLength: 45,
@@ -246,20 +240,12 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                   value: hasData
                                       ? form['nombre']['apellidoMat']
                                       : '',
-
-                                  // formMap: form['nombre'],
-                                  /*onChanged: (dynamic response) {
-                                    this.form.addAll(response);
-                                  },*/
-
                                   validator: (value) {
                                     if (value.isEmpty || !validateText(value)) {
                                       Map name;
-
                                       if (form.containsKey('nombre')) {
                                         name = form['nombre'] as Map;
                                         if (name.containsKey('apellidoMat'))
-                                          //if is null
                                           name.remove('apellidoMat');
                                       }
                                     } else {
@@ -275,46 +261,11 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                       }
                                       return null;
                                     }
-                                  }, /*
-                                    onChanged: (value) {
-                                      print(value);
-                                    }*/
+                                  },
                                 ),
                                 CustomRow(columns: 2, children: [
                                   CustomField(
-                                    label: 'Sexo',
-                                    editable: true,
-                                    isRequired: true,
-                                    type: 'select',
-                                    keyName: 'sexo',
-                                    formMap: form,
-                                    value: hasData ? form['sexo'] : '',
-                                    items: getItems(data['sexo']),
-                                    onChanged: (dynamic response) {
-                                      this.form.addAll(response);
-                                    },
-                                  ),
-                                  CustomField(
-                                    label: 'Tipo de consulta',
-                                    editable: true,
-                                    isRequired: true,
-                                    type: 'select',
-                                    items: getItems(data['tipoConsulta']),
-                                    keyName: 'tipoConsulta',
-                                    value: hasData ? form['tipoConsulta'] : '',
-                                    formMap: form,
-                                    onChanged: (dynamic response) {
-                                      this.form.addAll(response);
-                                    },
-                                    /*
-                                    onChanged: (date) {
-                                      form['fechaNacimiento'] = date.toString();
-                                    },*/
-                                  ),
-                                ]),
-                                CustomRow(columns: 2, children: [
-                                  CustomField(
-                                      label: 'F. de Nacimiento',
+                                      label: 'F. de Nacimiento*',
                                       editable: true,
                                       isRequired: true,
                                       type: 'date',
@@ -332,6 +283,35 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                             .toString();
                                       }),
                                   CustomField(
+                                    label: 'Lugar de Nacimiento',
+                                    maxLength: 45,
+                                    editable: true,
+                                    isRequired: false,
+                                    type: 'text',
+                                    keyName: 'lugarNacimiento',
+                                    value:
+                                        hasData ? form['lugarNacimiento'] : '',
+                                    formMap: form,
+                                    onChanged: (dynamic response) {
+                                      this.form.addAll(response);
+                                    },
+                                  )
+                                ]),
+                                CustomRow(columns: 2, children: [
+                                  CustomField(
+                                    label: 'Sexo*',
+                                    editable: true,
+                                    isRequired: true,
+                                    type: 'select',
+                                    keyName: 'sexo',
+                                    formMap: form,
+                                    value: hasData ? form['sexo'] : '',
+                                    items: getItems(data['sexo']),
+                                    onChanged: (dynamic response) {
+                                      this.form.addAll(response);
+                                    },
+                                  ),
+                                  CustomField(
                                     controller: birthdate,
                                     label: 'Edad',
                                     editable: false,
@@ -344,31 +324,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                         : '',
                                   ),
                                 ]),
-                                CustomField(
-                                  label: 'Lugar de Nacimiento',
-                                  maxLength: 45,
-                                  editable: true,
-                                  isRequired: false,
-                                  type: 'text',
-                                  keyName: 'lugarNacimiento',
-                                  value: hasData ? form['lugarNacimiento'] : '',
-                                  formMap: form,
-                                  onChanged: (dynamic response) {
-                                    this.form.addAll(response);
-                                  },
-                                  /*validator: (value) {
-                                                                                if (value.isEmpty || !validateText(value)) {
-                                                                                  //if is null
-                                                                                  form.remove('lugarNacimiento');
-                                                                                } else {
-                                                                                  form['lugarNacimiento'] = value;
-                                                                                }
-                                                                                return null;
-                                                                              },*/
-                                  /*onChanged: (value) {
-                                                                                  form['lugarNacimiento'] = value;
-                                                                                }*/
-                                ),
                                 CustomRow(
                                   columns: 2,
                                   children: [
@@ -400,12 +355,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                       onChanged: (dynamic response) {
                                         this.form.addAll(response);
                                       },
-                                      /*validator: (value) {
-                                                                                      return null;
-                                                                                    },
-                                                                                    onChanged: (value) {
-                                                                                      print(value);
-                                                                                    }*/
                                     ),
                                   ],
                                 ),
@@ -427,9 +376,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                       onChanged: (dynamic response) {
                                         this.form.addAll(response);
                                       },
-                                      /* onChanged: (value) {
-                                                                                    form['religion'] = value;
-                                                                                  },*/
                                     ),
                                     CustomField(
                                       label: 'Edo. Civíl',
@@ -443,13 +389,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                       onChanged: (dynamic response) {
                                         this.form.addAll(response);
                                       },
-
-                                      /*validator: (value) {
-                                                                                      return null;
-                                                                                    },
-                                                                                    onChanged: (value) {
-                                                                                      print(value);
-                                                                                    }*/
                                     ),
                                   ],
                                 ),
@@ -472,11 +411,11 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                             style: new TextStyle(
                                                 color: Theme.of(context)
                                                     .primaryColor,
-                                                fontWeight: FontWeight.normal,
+                                                fontWeight: FontWeight.bold,
                                                 fontSize: 22.0)),
                                       ),
                                       CustomField(
-                                          label: 'Teléfono',
+                                          label: 'Teléfono*',
                                           editable: true,
                                           isRequired: true,
                                           type: 'phone',
@@ -484,7 +423,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                           value: hasData
                                               ? form['contacto']['telefono']
                                               : '',
-                                          //formMap: form['contacto'],
                                           validator: (value) {
                                             if (value.isEmpty ||
                                                 !validateText(value)) {
@@ -503,7 +441,7 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                             return null;
                                           }),
                                       CustomField(
-                                          label: 'Correo Electrónico',
+                                          label: 'Correo Electrónico*',
                                           maxLength: 320,
                                           editable: true,
                                           isRequired: true,
@@ -512,7 +450,6 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                           value: hasData
                                               ? form['contacto']['correo']
                                               : '',
-                                          // formMap: form['contacto'],
                                           validator: (value) {
                                             Map name;
 
@@ -531,59 +468,73 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
-                                                    Theme.of(context)
-                                                        .primaryColor)),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text('Cancelar')),
-                                    ElevatedButton(
-                                        style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
-                                                    Theme.of(context)
-                                                        .primaryColor)),
-                                        onPressed: () {
-                                          if (_formKey.currentState
-                                              .validate()) {
-                                            var pD = PacientDao();
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      ButtonTheme(
+                                          minWidth: 130,
+                                          height: 35.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('Cancelar'))),
+                                      ButtonTheme(
+                                          minWidth: 130,
+                                          height: 35.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                if (_formKey.currentState
+                                                    .validate()) {
+                                                  var pD = PacientDao();
+                                                  if (!hasData) {
+                                                    form['_id'] = null;
+                                                    form['estado'] = true;
+                                                    form['fechaRegistro'] =
+                                                        DateTime.now()
+                                                            .toString();
+                                                    form.remove('null');
+                                                    Pacient pacient =
+                                                        new Pacient(
+                                                            id: null,
+                                                            data:
+                                                                Map.from(form));
+                                                    pD.insert(pacient);
+                                                    Navigator.of(context)
+                                                        .pushNamedAndRemoveUntil(
+                                                            "/Paciente/View",
+                                                            ModalRoute.withName(
+                                                                '/Paciente/Search'),
+                                                            arguments: pacient);
+                                                  } else {
+                                                    form.remove('null');
+                                                    p.data = Map.from(form);
+                                                    pD.update(p);
+                                                    Navigator.of(context)
+                                                        .popAndPushNamed(
+                                                            '/Pacient/View',
+                                                            arguments: p);
+                                                  }
 
-                                            if (!hasData) {
-                                              form['_id'] = null;
-                                              form['estado'] = true;
-                                              form['fechaRegistro'] =
-                                                  DateTime.now().toString();
-                                              form.remove('null');
-                                              Pacient pacient = new Pacient(
-                                                  id: null,
-                                                  data: Map.from(form),
-                                                  history: null);
-                                              pD.insert(pacient);
-                                              _showMaterialDialog(pacient);
-                                            } else {
-                                              form.remove('null');
-                                              p.data = Map.from(form);
-                                              pD.update(p);
-                                              Navigator.of(context)
-                                                  .popAndPushNamed(
-                                                      '/Pacient/View',
-                                                      arguments: p);
-                                            }
-                                            print(form);
-                                          }
-                                        },
-                                        child: Text('Guardar'))
-                                  ],
-                                )
+                                                  print(form);
+                                                }
+                                              },
+                                              child: Text('Guardar')))
+                                    ]),
                               ]))
                     ]))));
   }
@@ -596,7 +547,7 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
               content: new Text("¿Desea continuar con el Historial Clínico?"),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('Cancelar'),
+                  child: Text('No'),
                   onPressed: () {
                     Navigator.of(context).pushNamedAndRemoveUntil(
                         "/Paciente/View",
@@ -608,12 +559,10 @@ class _NewScreenPacienteState extends State<NewScreenPaciente> {
                   child: Text('Aceptar'),
                   onPressed: () {
                     print(form.toString());
+
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                        "/Paciente/View",
-                        ModalRoute.withName('/Paciente/Search'),
+                        "/Historial/New", ModalRoute.withName('/Home'),
                         arguments: p);
-                    Navigator.of(context)
-                        .pushNamed('/Historial/New', arguments: p);
                   },
                 )
               ],

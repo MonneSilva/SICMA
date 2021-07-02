@@ -1,0 +1,242 @@
+{
+  "title": "Consulta",
+  "description": "Formulario de consultas",
+  "autoValidated": true,
+  "fields": [
+    {
+      "key": "medida",
+      "label": "Medidas básicas",
+      "type": "Group",
+      "fields": [
+        {
+          "label": "Envergadura",
+          "key": "Envergadura",
+          "nivel": "ISAK II",
+          "type": "Measure","unit": "cm","editable":false,
+          "code": 1
+        },
+        {
+          "label": "Estatura",
+          "key": "Estatura",
+          "nivel": "ISAK I","type": "Measure","unit": "cm","editable":false,
+          "code": 2
+        },
+        {
+          "label": "Masa corporal",
+          "key": "Masa corporal",
+          "nivel": "ISAK I","type": "Measure","unit": "kg","editable":false,
+          "code": 3
+        },
+        {
+          "label": "Talla sentado",
+          "key": "Talla sentado",
+          "nivel": "ISAK II","type": "Measure","unit": "cm","editable":false,
+          "code": 4
+        }
+      ]
+    },
+   
+    {
+      "key": "medida",
+      "label": "Perímetros",
+      "type": "Group",
+      "fields": [
+        {
+          "label": "Antebrazo",
+          "key": "P. de antebrazo","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 13
+        },
+        {
+          "label": "Brazo flexionado",
+          "key": "P. de brazo flexionado","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK I",
+          "code": 14
+        },
+        {
+          "label": "Brazo relajado",
+          "key": "P. de brazo relajado","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK I",
+          "code": 15
+        },
+        {
+          "label": "Cabeza",
+          "key": "P. de cabeza","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 16
+        },
+        {
+          "label": "Cintura",
+          "key": "P. de cintura","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK I",
+          "code": 17
+        },
+        {
+          "label": "Cuello",
+          "key": "P. de cuello","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 18
+        },
+        {
+          "label": "Glúteo",
+          "key": "P. de glúteo","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK I",
+          "code": 19
+        },
+        {
+          "label": "Muñeca",
+          "key": "P. de muñeca","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 20
+        },
+        {
+          "label": "Muslo a 1 cm",
+          "key": "P. de muslo a 1 cm","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 21
+        },
+        {
+          "label": "Muslo medio",
+          "key": "P. de muslo medio","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 22
+        },
+        {
+          "label": "Pierna",
+          "key": "P. de pierna","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK I",
+          "code": 23
+        },
+        {
+          "label": "Tobillo",
+          "key": "P. de tobillo","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 24
+        },
+        {
+          "label": "Torax",
+          "key": "P. de tórax o pecho","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 25
+        }
+      ]
+    },
+    {
+      "key": "medida",
+      "label": "Longitudes",
+      "type": "Group",
+      "fields": [
+        {
+          "label": "Acromiale-radiale",
+          "key": "L. de acromiale-radiale","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 26
+        },
+        {
+          "label": "Altura iliospinale",
+          "key": "L. de altura iliospinale","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 27
+        },
+        {
+          "label": "Altura tibial lateral",
+          "key": "L. de altura tibial lateral","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 28
+        },
+        {
+          "label": "Trocantéreal",
+          "key": "L. de altura trocantéreal","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 29
+        },
+        {
+          "label": "Midstylion-dactylion",
+          "key": "L. de midstylion-dactylion","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 30
+        },
+        {
+          "label": "Radiale-stylion",
+          "key": "L. de radiale-stylion","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 31
+        },
+        {
+          "label": "Tibiale mediale-shyrion tibial",
+          "key": "L. de tibiale mediale-sphyrion tibial","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 32
+        },
+        {
+          "label": "Trochanterion-tiabale laterale",
+          "key": "L. de trochanterion-tiabale laterale","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 33
+        }
+      ]
+    },
+    {
+      "key": "medida",
+      "label": "Diámetros",
+      "type": "Group",
+      "fields": [
+        {
+          "label": "Anteroposterior del tórax",
+          "key": "D. anteroposterior del tórax","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 34
+        },
+        {
+          "label": "Biacromial",
+          "key": "D. biacromial",
+          "nivel": "ISAK II","type": "Measure","unit": "cm","editable":false,
+          "code": 35
+        },
+        {
+          "label": "Biepicondileo de fémur",
+          "key": "D. biepicondileo de fémur","type": "Measure","unit": "cm","editable":false,"editable":false,
+          "nivel": "ISAK I",
+          "code": 36
+        },
+        {
+          "label": "Biepicondileo de humero",
+          "key": "D. biepicondileo del húmero","type": "Measure","unit": "cm","editable":false,"editable":false,
+          "nivel": "ISAK I",
+          "code": 37
+        },
+        {
+          "label": "Biestiloideo",
+          "key": "D. biestiloideo","type": "Measure","unit": "cm","editable":false,"editable":false,
+          "nivel": "ISAK II",
+          "code": 38
+        },
+        {
+          "label": "Biliocrestal",
+          "key": "D. biiliocrestal","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 39
+        },
+        {
+          "label": "Longitud de pie",
+          "key": "D. longitud del pie","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 40
+        },
+        {
+          "label": "Sagital abdominal",
+          "key": "D. sagital abdominal","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 41
+        },
+        {
+          "label": "Transverso del tórax",
+          "key": "D. transverso del tórax","type": "Measure","unit": "cm","editable":false,
+          "nivel": "ISAK II",
+          "code": 42
+        }
+      ]
+    }
+   
+  ]
+}

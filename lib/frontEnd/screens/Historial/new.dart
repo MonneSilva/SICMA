@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sicma/backEnd/data/consult/consult.dart';
 import 'package:sicma/backEnd/data/history/history.dart';
 import 'package:sicma/backEnd/data/history/history_dao.dart';
 import 'package:sicma/backEnd/data/pacient/pacient.dart';
@@ -11,8 +10,7 @@ import 'package:sicma/frontEnd/components/form/field.dart';
 import 'package:sicma/frontEnd/components/form/row.dart';
 import 'package:sicma/frontEnd/components/form/section.dart';
 import 'package:sicma/frontEnd/components/tab/tabView.dart';
-
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:sembast/utils/value_utils.dart';
 
 class NewScreenHistorial extends StatefulWidget {
   NewScreenHistorial({Key key, this.title}) : super(key: key);
@@ -29,32 +27,12 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
   Map form = new Map();
   Map data;
   final _formKey = GlobalKey<FormState>();
-  String formString;
 
   @override
   void initState() {
     _tabController = new TabController(length: 4, vsync: this);
     super.initState();
     _fetchData();
-  }
-
-  void loadJson() {
-    rootBundle
-        .loadString('assets/json/submission_form.json')
-        .then((jsonString) {
-      List<dynamic> jsonObj = json.decode(jsonString) ?? '';
-      List<Map<String, dynamic>> rawJson = listOfDynamicToMap(jsonObj) ?? [];
-    });
-  }
-
-  List<Map<String, dynamic>> listOfDynamicToMap(List<dynamic> list) {
-    List<Map<String, dynamic>> listOfMap = [];
-    list.forEach((element) {
-      if (element is Map<String, dynamic>) {
-        listOfMap.add(element);
-      }
-    });
-    return listOfMap;
   }
 
   getItems(data) {
@@ -93,10 +71,9 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
 
   @override
   Widget build(BuildContext context) {
-    List arguments = ModalRoute.of(context).settings.arguments;
-    final Pacient p = arguments[0] as Pacient;
-    //  final bool _editable = arguments[1] as bool;
-    //  bool hasData = p.history ?? true;
+    final Pacient p = ModalRoute.of(context).settings.arguments as Pacient;
+    bool hasData = p != null ? true : false;
+    hasData ? form = cloneMap(p.history.data) : new Map();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: PreferredSize(
@@ -176,10 +153,10 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                               icon: Icon(Icons.group),
                             ),
                             Tab(
-                              icon: Icon(Icons.group),
+                              icon: Icon(Icons.person),
                             ),
                             Tab(
-                              icon: Icon(Icons.group),
+                              icon: Icon(Icons.medical_services_outlined),
                             ),
                             Tab(
                               icon: Icon(Icons.calendar_today),
@@ -204,30 +181,61 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                 children: [
                                   CustomTabView(
                                     title: 'Antecedentes Heredofamiliares',
-                                    children: [],
+                                    children: [
+                                      CustomField(
+                                        data: form['Antecedentes']
+                                                ['HeredoFamiliares']
+                                            ['Padecimientos'],
+                                        label:
+                                            'Algún familiar padece las siguientes enfermedades:',
+                                        maxLength: 45,
+                                        editable: true,
+                                        isRequired: false,
+                                        type: 'checkboxGroup',
+                                        items: getItems(data['enfermedades']
+                                            ['heredofamiliares']),
+                                      ),
+                                      CustomField(
+                                        data: form['Antecedentes']
+                                                ['HeredoFamiliares']
+                                            ['PadecimientosOtros'],
+                                        label: 'Otro:',
+                                        editable: true,
+                                        isRequired: false,
+                                        type: 'text',
+                                      ),
+                                    ],
                                     childrenFooter: [
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor)),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text('Omitir')),
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor)),
-                                          onPressed: () {
-                                            _tabController.index++;
-                                          },
-                                          child: Text('Siguente'))
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Omitir'))),
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Siguiente')))
                                     ],
                                   ),
                                   CustomTabView(
@@ -239,6 +247,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                         children: [
                                           CustomField(
                                             label: 'Aseo diario',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'select',
                                             validator: (value) {
@@ -252,6 +261,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: 'Higiene dental',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'select',
                                             validator: (value) {
@@ -266,12 +276,12 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomSection(
                                         label: "Dietéticos",
-                                        type: "dropDown",
                                         children: [
                                           CustomRow(
                                             children: [
                                               CustomField(
                                                 label: 'Apetito',
+                                                editable: true,
                                                 isRequired: false,
                                                 type: 'select',
                                                 validator: (value) {
@@ -285,6 +295,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                               ),
                                               CustomField(
                                                 label: 'Hora de mayor apetito',
+                                                editable: true,
                                                 isRequired: false,
                                                 type: 'select',
                                                 validator: (value) {
@@ -298,18 +309,22 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             ],
                                             columns: 2,
                                           ),
-                                          CustomField(
+                                          /*   CustomField(
+                                            
                                             label:
                                                 'Realiza las siguientes comidas:',
                                             maxLength: 45,
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkboxGroup',
                                             items: getItems(data['comidas']),
-                                          ),
+                                          ),*/
+
                                           CustomRow(
                                             children: [
                                               CustomField(
                                                 label: '¿Dónde come?',
+                                                editable: true,
                                                 isRequired: false,
                                                 type: 'select',
                                                 validator: (value) {
@@ -322,6 +337,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                               ),
                                               CustomField(
                                                 label: '¿Con quíen come?',
+                                                editable: true,
                                                 isRequired: false,
                                                 type: 'select',
                                                 validator: (value) {
@@ -340,6 +356,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             children: [
                                               CustomField(
                                                 label: '¿Quíen prepara?',
+                                                editable: true,
                                                 isRequired: false,
                                                 type: 'select',
                                                 validator: (value) {
@@ -358,6 +375,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Suele comer a la misma hora?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -369,6 +387,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: '¿Suele saltarse comidas?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -381,6 +400,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 'De las siguientes preparaciónes cuales lleva a cabo en sus alimentos',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkboxGroup',
                                             validator: (value) {
@@ -395,6 +415,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Con qué grasas cocina sus alimentos?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkboxGroup',
                                             validator: (value) {
@@ -408,6 +429,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Agrega sal a la comida ya preparada?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -421,6 +443,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿A qué alimentos es intolerante?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -434,6 +457,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿A qué alimentos no son de su agrado?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -447,6 +471,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Qué alimentos no le apetecen?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -459,6 +484,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: '¿Qué liquidos ingiere?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'number',
                                             orientation: 'horizontal',
@@ -473,6 +499,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Su consumo varia cuando esta triste, ansioso o nervioso',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -486,6 +513,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Ha modificado su alimentación en el último semestre?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -498,6 +526,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: 'Causa',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -511,6 +540,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Utiliza azúcar, crema, leche o sustitutos agregados en sus bebidas?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -523,6 +553,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: '¿Ingiere alcohol?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -535,6 +566,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: '¿Consume tabaco?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -548,6 +580,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Toma o ha tomado algún medicamento para bajar de peso?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
@@ -560,6 +593,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: '¿Cúales?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -572,17 +606,20 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           CustomField(
                                             label:
                                                 '¿Consume suplementos o complementos en su dieta diaria?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'checkbox',
                                             validator: (value) {
                                               return null;
                                             },
+                                            items: getItems(data['valores']),
                                             onChanged: (value) {
                                               form['apetito'] = value;
                                             },
                                           ),
                                           CustomField(
                                             label: '¿Cúales?',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -594,6 +631,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: 'Valoración Nutricional:',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'text',
                                             validator: (value) {
@@ -609,28 +647,31 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       if (p.data['tipoConsulta'] == 'Deportivo')
                                         CustomSection(
                                           label: "Deportivos",
-                                          type: "dropDown",
                                           children: [
                                             CustomField(
                                               label:
                                                   'Edad desde la que se práctica deporte',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'text',
                                               orientation: 'horizontal',
                                               validator: (value) {
                                                 return null;
                                               },
+                                              items: getItems(data['valores']),
                                               onChanged: (value) {
                                                 form['apetito'] = value;
                                               },
                                             ),
                                             CustomField(
                                               label: '¿Es sedentario?',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'checkbox',
                                               validator: (value) {
                                                 return null;
                                               },
+                                              items: getItems(data['valores']),
                                               onChanged: (value) {
                                                 form['apetito'] = value;
                                               },
@@ -638,6 +679,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             CustomField(
                                               label:
                                                   'Deportes practicados anteriormente:',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'text',
                                               validator: (value) {
@@ -651,6 +693,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             CustomField(
                                               label:
                                                   'Deportes que le es imposible practicar:',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'text',
                                               validator: (value) {
@@ -664,6 +707,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             CustomField(
                                               label:
                                                   'Malestares generados al hacer deporte:',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'text',
                                               validator: (value) {
@@ -677,6 +721,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             CustomField(
                                               label:
                                                   '¿Ingiére liquidos mientras practica deporte?',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'checkbox',
                                               validator: (value) {
@@ -690,6 +735,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             CustomField(
                                               label:
                                                   '¿Ha tenido problemas de desidratación por insolación?',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'checkbox',
                                               validator: (value) {
@@ -703,6 +749,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                             CustomField(
                                               label:
                                                   '¿Suele tener más sed, más hambre o más ganas de orinar de lo habitual?',
+                                              editable: true,
                                               isRequired: false,
                                               type: 'checkbox',
                                               validator: (value) {
@@ -717,28 +764,36 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                         ),
                                     ],
                                     childrenFooter: [
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor)),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text('Omitir')),
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor)),
-                                          onPressed: () {
-                                            _tabController.index++;
-                                          },
-                                          child: Text('Siguiente'))
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Omitir'))),
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Siguiente')))
                                     ],
                                   ),
                                   CustomTabView(
@@ -750,6 +805,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                         children: [
                                           CustomField(
                                             label: 'Tipo de sangre',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'select',
                                             validator: (value) {
@@ -763,6 +819,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           ),
                                           CustomField(
                                             label: 'RH',
+                                            editable: true,
                                             isRequired: false,
                                             type: 'select',
                                             validator: (value) {
@@ -777,6 +834,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: 'Transfusiones de sangre',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'checkbox',
                                         validator: (value) {
@@ -789,6 +847,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: 'Motivo:',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'text',
                                         validator: (value) {
@@ -802,6 +861,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       CustomField(
                                         label:
                                             'Perido de la última transfusión:',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'text',
                                         validator: (value) {
@@ -814,6 +874,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: '¿Sufre desmayos?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'checkbox',
                                         validator: (value) {
@@ -827,6 +888,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       CustomField(
                                         label:
                                             '¿Le han realizado alguna operación?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'checkbox',
                                         validator: (value) {
@@ -839,6 +901,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: 'Operaciones:',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'text',
                                         validator: (value) {
@@ -852,11 +915,14 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       CustomField(
                                         label:
                                             '¿Tiene alguno de los siguientes padecimientos?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'checkboxGroup',
                                         validator: (value) {
                                           return null;
                                         },
+                                        items: getItems(
+                                            data['enfermedades']['personales']),
                                         onChanged: (value) {
                                           form['escolaridad'] = value;
                                         },
@@ -864,6 +930,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       CustomField(
                                         label:
                                             '¿Ha estado internada recientemente?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'checkbox',
                                         validator: (value) {
@@ -876,6 +943,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: '¿Padece de alergías?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'checkbox',
                                         validator: (value) {
@@ -888,6 +956,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       CustomField(
                                         label:
                                             '¿A qué medicamentos es alérgico?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'text',
                                         validator: (value) {
@@ -901,6 +970,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: '¿A qué alimentos es alérgico?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'text',
                                         validator: (value) {
@@ -914,6 +984,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                       ),
                                       CustomField(
                                         label: '¿Qué otras alérgias padece?',
+                                        editable: true,
                                         isRequired: false,
                                         type: 'text',
                                         validator: (value) {
@@ -925,33 +996,47 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                           form['escolaridad'] = value;
                                         },
                                       ),
-                                      if (p.data['tipoConsulta'] == 'Deportiva')
-                                        CustomSection(
-                                            label: "Fisicos",
-                                            type: "dropDown",
-                                            children: [
-                                              CustomField(
-                                                label:
-                                                    '¿Ha sufrido alguna de las siguientes lesiones?',
-                                                isRequired: false,
-                                                items:
-                                                    getItems(data['lesiones']),
-                                                type: 'checkboxGroup',
-                                                validator: (value) {
-                                                  return null;
-                                                },
-                                                onChanged: (value) {
-                                                  form['escolaridad'] = value;
-                                                },
-                                              ),
-                                            ]),
+                                      CustomField(
+                                        label:
+                                            '¿Padece alguna de las siguientes lesiones?',
+                                        editable: true,
+                                        isRequired: false,
+                                        type: 'text',
+                                        validator: (value) {
+                                          return null;
+                                        },
+                                        items: getItems(data['enfermedades']
+                                            ['heredofamiliares']),
+                                        onChanged: (value) {
+                                          form['escolaridad'] = value;
+                                        },
+                                      ),
+                                      /*if (p.data['tipoConsulta'] == 'Deportiva')*/
+                                      CustomSection(
+                                          label: "Fisicos",
+                                          children: [
+                                            CustomField(
+                                              label:
+                                                  '¿Ha sufrido alguna de las siguientes lesiones?',
+                                              editable: true,
+                                              isRequired: false,
+                                              type: 'checkboxGroup',
+                                              validator: (value) {
+                                                return null;
+                                              },
+                                              items: getItems(data['lesiones']),
+                                              onChanged: (value) {
+                                                form['escolaridad'] = value;
+                                              },
+                                            ),
+                                          ]),
                                       if (p.data['sexo'] == 'Femenino')
                                         CustomSection(
                                           label: "Ginecobstetricos",
-                                          type: "dropDown",
                                           children: [
                                             CustomField(
                                               label: '¿Ha iniciado a mestruar?',
+                                              editable: true,
                                               isRequired: false,
                                               keyName: 'inicioMenarca',
                                               type: 'checkbox',
@@ -968,6 +1053,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                               children: [
                                                 CustomField(
                                                   label: 'Edad de inicio',
+                                                  editable: true,
                                                   isRequired: false,
                                                   type: 'number',
                                                   validator: (value) {
@@ -981,6 +1067,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                                 ),
                                                 CustomField(
                                                   label: 'No. de gestaciones',
+                                                  editable: true,
                                                   isRequired: false,
                                                   type: 'select',
                                                   validator: (value) {
@@ -1000,6 +1087,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                               children: [
                                                 CustomField(
                                                   label: 'No. de abortos',
+                                                  editable: true,
                                                   isRequired: false,
                                                   type: 'select',
                                                   validator: (value) {
@@ -1013,6 +1101,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                                 ),
                                                 CustomField(
                                                   label: 'No. de cesareas',
+                                                  editable: true,
                                                   isRequired: false,
                                                   type: 'select',
                                                   validator: (value) {
@@ -1026,187 +1115,66 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                                 ),
                                               ],
                                             ),
-                                            CustomField(
-                                              label: 'Regularidad',
-                                              isRequired: false,
-                                              type: 'checkbox',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
                                           ],
                                         ),
                                     ],
                                     childrenFooter: [
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor)),
-                                          onPressed: () {
-                                            _tabController.index++;
-                                          },
-                                          child: Text('Omitir')),
-                                      ElevatedButton(
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                          Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor)),
-                                          onPressed: () {
-                                            form['paciente_id'] = p.id;
-                                            form['fecha'] =
-                                                DateTime.now().toString();
-                                            print(form.toString());
-                                            var hD = new HistoryDao();
-                                            hD.insert(new History(
-                                                id: null,
-                                                data: Map.from(form)));
-                                            print('ya');
-                                            _tabController.index++;
-                                          },
-                                          child: Text('Guardar'))
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Omitir'))),
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                form['paciente_id'] = p.id;
+                                                form['fecha'] =
+                                                    DateTime.now().toString();
+                                                print(form.toString());
+                                                var hD = new HistoryDao();
+                                                hD.insert(new History(
+                                                    id: null,
+                                                    data: Map.from(form)));
+                                                print('ya');
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Guardar'))),
                                     ],
                                   ),
                                   CustomTabView(
                                     title: 'Consultas',
                                     children: [
-                                      Column(children: [
-                                        Container(
-                                          width: double.infinity,
-                                          height: 50,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              IconButton(
-                                                  alignment: Alignment.topRight,
-                                                  icon: Icon(Icons
-                                                      .filter_list_outlined),
-                                                  onPressed: null),
-                                            ],
-                                          ),
-                                        ),
-                                        /*Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  new BorderRadius.all(
-                                                const Radius.circular(30.0),
-                                              ),
-                                              color: Theme.of(context)
-                                                  .primaryColorLight,
-                                            ),
-                                            height: 180,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(10),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  CustomRow(
-                                                    columns: 2,
-                                                    children: [
-                                                      CustomField(
-                                                          
-                                                          isRequired: false,
-                                                          label: "Desde:",
-                                                          type: "date"),
-                                                      CustomField(
-                                                          label: "Hasta:",
-                                                          isRequired: false,
-                                                          editable: true,
-                                                          type: "date")
-                                                    ],
-                                                  ),
-                                                  RaisedButton(
-                                                    child: Text('Aplicar'),
-                                                    onPressed: () {},
-                                                  )
-                                                ],
-                                              ),
-                                            )),*/
-                                        Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 10),
-                                            child: ListView.builder(
-                                                scrollDirection: Axis.vertical,
-                                                shrinkWrap: true,
-                                                itemCount: p.history
-                                                    .data['Consultas'].length,
-                                                itemBuilder: (context, index) {
-                                                  Consult c = new Consult(
-                                                      id: null,
-                                                      data: p.history
-                                                              .data['Consultas']
-                                                          [index]);
-                                                  return p.history.data[
-                                                              'Consultas'] ==
-                                                          null
-                                                      ? Container(
-                                                          child: Text(
-                                                              'No hay consultas'),
-                                                        )
-                                                      : GestureDetector(
-                                                          child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(10),
-                                                              height: 80,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                border: Border(
-                                                                    bottom:
-                                                                        BorderSide(
-                                                                  width: 1.0,
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColorDark,
-                                                                )),
-                                                                color: Colors
-                                                                    .white,
-                                                              ),
-                                                              width: 100,
-                                                              child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .start,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .center,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Text(
-                                                                      c.data['fecha']
-                                                                          .toString(),
-                                                                      style: TextStyle(
-                                                                          fontSize:
-                                                                              15),
-                                                                    ),
-                                                                  ])),
-                                                          onTap: () {},
-                                                          onLongPress: () {},
-                                                        );
-                                                })),
-                                        RaisedButton.icon(
-                                          icon: Icon(Icons.add),
-                                          label: Text('Nueva consulta'),
-                                          onPressed: () {
-                                            Navigator.of(context).pushNamed(
-                                                "/Consulta/New",
-                                                arguments: p);
-                                          },
-                                        )
-                                      ])
+                                      /*IconButton(
+                                            icon: Icon(Icons.filter_list),
+                                            onPressed: null),*/
+                                      RaisedButton.icon(
+                                        icon: Icon(Icons.add),
+                                        label: Text('Nueva consulta'),
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                              "/Consulta/New",
+                                              arguments: p);
+                                        },
+                                      ),
                                     ],
                                     childrenFooter: [
                                       ElevatedButton(
@@ -1218,9 +1186,7 @@ class _NewScreenHistorialState extends State<NewScreenHistorial>
                                                           .primaryColor)),
                                           onPressed: () {
                                             if (_formKey.currentState
-                                                .validate()) {
-                                              Navigator.of(context).pop();
-                                            }
+                                                .validate()) {}
                                           },
                                           child: Text('Finalizar'))
                                     ],

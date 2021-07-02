@@ -1,10 +1,13 @@
 library json_to_form;
 
+import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:sicma/frontEnd/components/form/datepicker.dart';
+import 'package:sicma/frontEnd/components/form/field.dart';
+import 'package:sicma/frontEnd/components/form/formula.dart';
 
 class JsonSchema extends StatefulWidget {
   const JsonSchema({
@@ -42,15 +45,25 @@ class JsonSchema extends StatefulWidget {
 class _CoreFormState extends State<JsonSchema> {
   final dynamic formGeneral;
 
+  List<bool> visible = [];
+
   initData() {
     if (widget.data != null) {
       widget.data.forEach((key, value) {
+        var n = formGeneral['fields'].length;
+        print("n: " + n.toString());
         for (var count1 = 0; count1 < formGeneral['fields'].length; count1++) {
           //Recorre por cada elemento el "fields"
           Map item = formGeneral['fields']
               [count1]; //Mapea la informacion de cada "field"
           if (key == item['title']) {
             item['value'] = value;
+
+            var k = item['key'];
+            var v = value;
+            Map field = new Map();
+            field[k] = v;
+            _handleChanged(field);
           }
         }
       });
@@ -121,6 +134,7 @@ class _CoreFormState extends State<JsonSchema> {
           ),
         ));
       }
+      formGeneral['fields'][count] = item;
     }
     return listWidget;
   }
@@ -130,9 +144,9 @@ class _CoreFormState extends State<JsonSchema> {
     switch (item['type']) {
       case 'Section':
         List<Widget> widgets = [];
-        if (item['title'] != null)
+        if (item['label'] != null)
           widgets.add(Center(
-              child: Text(item['title'],
+              child: Text(item['label'],
                   style: new TextStyle(
                       color: Theme.of(context).primaryColorDark,
                       fontWeight: FontWeight.normal,
@@ -164,30 +178,52 @@ class _CoreFormState extends State<JsonSchema> {
         return listWidget;
 
         break;
+
       case "Group":
+        bool visible = item['state'] != null ? item['state'] : false;
         List<Widget> widgets = [];
-        if (item['label'] != null) if (labelHidden(item)) {
-          widgets.add(new Text(item['label'],
-              style: new TextStyle(
-                  fontWeight: FontWeight.normal, fontSize: 16.0)));
-        }
-        listWidget.add(
-          new Container(
-            margin: new EdgeInsets.only(top: 5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: widgets,
-            ),
-          ),
-        );
         for (var count = 0; count < item['fields'].length; count++) {
           Map aux = item['fields'][count]; //Mapea cada elemento de fileds
 
           //Comienza a crear cada "field"
-          listWidget.addAll(getField(aux));
+          widgets.addAll(getField(aux));
         }
 
+        listWidget.add(Container(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Container(
+                height: 1,
+                color: Theme.of(context).primaryColor,
+              )),
+          Row(children: [
+            Expanded(
+                flex: 8,
+                child: Text(item['label'],
+                    style: new TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 22.0))),
+            Expanded(
+                flex: 1,
+                child: IconButton(
+                    color: Theme.of(context).primaryColor,
+                    icon: Icon(visible
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down),
+                    onPressed: () {
+                      setState(() {
+                        item['state'] = !visible;
+                      });
+                    })),
+          ]),
+          Visibility(visible: visible, child: Column(children: widgets))
+        ])));
+
         break;
+
       case "Input":
       case "Password":
       case "Email":
@@ -196,7 +232,7 @@ class _CoreFormState extends State<JsonSchema> {
         Widget label = SizedBox.shrink();
         if (labelHidden(item)) {
           label = new Container(
-            padding: EdgeInsets.only(left: 20),
+            //  padding: EdgeInsets.only(left: 20),
             child: new Text(
               item['label'],
               style:
@@ -228,7 +264,11 @@ class _CoreFormState extends State<JsonSchema> {
                 maxLines: item['type'] == "TextArea" ? 10 : 1,
                 onChanged: (String value) {
                   item['value'] = value;
-                  _handleChanged();
+                  var k = item['key'];
+                  var v = value;
+                  Map field = new Map();
+                  field[k] = v;
+                  _handleChanged(field);
                 },
                 obscureText: item['type'] == "Password" ? true : false,
                 validator: (value) {
@@ -285,10 +325,54 @@ class _CoreFormState extends State<JsonSchema> {
                     initialDate: DateTime.now().add(Duration(days: 1)),
                     onDateChanged: (selectedDate) {
                       item['value'] = selectedDate;
-                      _handleChanged();
+
+                      var k = item['key'];
+                      var v = selectedDate;
+                      Map field = new Map();
+                      field[k] = v;
+                      _handleChanged(field);
                     },
                   )
                 ])));
+        break;
+      case "Measure":
+        listWidget.add(
+          MeasuresField(
+            label: item['label'],
+            value: item['value'],
+            editable: true, // item['editable'],
+            isRequired: false,
+            subLabel: item['unit'],
+            onChanged: (value) {
+              item['value'] = value;
+
+              var k = item['key'];
+              var v = value;
+              Map field = new Map();
+              field[k] = v;
+              _handleChanged(field);
+            },
+          ),
+        );
+        break;
+      case "Formula":
+        listWidget.add(
+          FormulaField(
+            label: item['label'],
+            value: item['value'],
+            editable: false,
+            items: item['items'],
+            onChanged: (value) {
+              item['value'] = value;
+
+              var k = item['key'];
+              var v = value;
+              Map field = new Map();
+              field[k] = v;
+              _handleChanged(field);
+            },
+          ),
+        );
         break;
       case "Phone":
         Widget label = SizedBox.shrink();
@@ -330,7 +414,12 @@ class _CoreFormState extends State<JsonSchema> {
                 maxLines: item['type'] == "TextArea" ? 10 : 1,
                 onChanged: (String value) {
                   item['value'] = value;
-                  _handleChanged();
+
+                  var k = item['key'];
+                  var v = value;
+                  Map field = new Map();
+                  field[k] = v;
+                  _handleChanged(field);
                 },
                 validator: (value) {
                   if (widget.validations.containsKey(item['key'])) {
@@ -379,7 +468,12 @@ class _CoreFormState extends State<JsonSchema> {
                       this.setState(() {
                         radioValue = value;
                         item['value'] = value;
-                        _handleChanged();
+
+                        var k = item['key'];
+                        var v = value;
+                        Map field = new Map();
+                        field[k] = v;
+                        _handleChanged(field);
                       });
                     })
               ],
@@ -406,7 +500,7 @@ class _CoreFormState extends State<JsonSchema> {
             margin: new EdgeInsets.only(top: 5.0),
             child: new Row(children: <Widget>[
               new Expanded(child: new Text(item['label'])),
-              new Switch(
+              /*  new Switch(
                 value: item['value'] ?? false,
                 onChanged: (bool value) {
                   this.setState(() {
@@ -414,6 +508,29 @@ class _CoreFormState extends State<JsonSchema> {
                     _handleChanged();
                   });
                 },
+              ),*/
+              RaisedButton(
+                child: Text(item['value'] ? 'Sí' : 'No'),
+                textColor: item['value']
+                    ? Colors.white
+                    : Theme.of(context).primaryColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                    side: BorderSide(color: Theme.of(context).primaryColor)),
+                color: item['value']
+                    ? Theme.of(context).primaryColor
+                    : Colors.white,
+                onPressed: () => widget.editable
+                    ? setState(() {
+                        item['value'] = !item['value'];
+
+                        var k = item['key'];
+                        var v = !item['value'];
+                        Map field = new Map();
+                        field[k] = v;
+                        _handleChanged(field);
+                      })
+                    : '',
               ),
             ]),
           ),
@@ -431,7 +548,7 @@ class _CoreFormState extends State<JsonSchema> {
             new Row(
               children: <Widget>[
                 new Expanded(child: new Text(item['items'][i]['label'])),
-                new Checkbox(
+                /* new Checkbox(
                   value: item['items'][i]['value'],
                   onChanged: (bool value) {
                     this.setState(
@@ -441,6 +558,22 @@ class _CoreFormState extends State<JsonSchema> {
                       },
                     );
                   },
+                ),*/
+                RaisedButton(
+                  child: Text(item['items'][i]['value'] ? 'Sí' : 'No'),
+                  textColor: item['items'][i]['value']
+                      ? Colors.white
+                      : Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      side: BorderSide(color: Theme.of(context).primaryColor)),
+                  color: item['items'][i]['value']
+                      ? Theme.of(context).primaryColor
+                      : Colors.white,
+                  onPressed: () => widget.editable
+                      ? setState(() => item['items'][i]['value'] =
+                          !item['items'][i]['value'])
+                      : '',
                 ),
               ],
             ),
@@ -471,18 +604,22 @@ class _CoreFormState extends State<JsonSchema> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               label,
-              new DropdownButtonFormField<String>(
+              DropdownButtonFormField<String>(
                 icon: Icon(Icons.keyboard_arrow_down),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(left: 15, right: 15),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(30.0)))),
-                hint: new Text("Select a user"),
+                hint: new Text(""),
                 value: item['value'],
-                onChanged: (String newValue) {
+                onChanged: (String value) {
                   setState(() {
-                    item['value'] = newValue;
-                    _handleChanged();
+                    item['value'] = value;
+
+                    HashMap field = new HashMap<String, dynamic>();
+                    field[item['key']] = value;
+
+                    _handleChanged(field);
                   });
                 },
                 items:
@@ -507,8 +644,8 @@ class _CoreFormState extends State<JsonSchema> {
 
   _CoreFormState(this.formGeneral);
 
-  void _handleChanged() {
-    widget.onChanged(formGeneral);
+  void _handleChanged(field) {
+    widget.onChanged(field);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -536,25 +673,10 @@ class _CoreFormState extends State<JsonSchema> {
       autovalidate: formGeneral['autoValidated'] ?? false,
       key: _formKey,
       child: Container(
-        padding: new EdgeInsets.all(widget.padding ?? 8.0),
+        padding: new EdgeInsets.all(0.0),
         child: new Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: // <Widget>[
-                /*Row(children: <Widget>[
-                IconButton(
-                    icon: Icon(Icons.timeline),
-                    onPressed: () {
-                      setState(() {
-                        _index += 1;
-                      });
-                    })
-              ]),*/
-                //IndexedStack(index: _index, children:
-                jsonToForm()
-
-            ///),
-            // ]
-            ),
+            children: jsonToForm()),
       ),
     );
   }

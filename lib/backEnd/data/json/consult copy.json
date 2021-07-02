@@ -1,0 +1,216 @@
+{
+  "title": "Consulta",
+  "description": "Formulario de consultas",
+  "autoValidated": true,
+  "fields": [
+    {
+          "key": "inputKey",
+          "title": "fecha",
+          "type": "Hidden",
+          "label": "ID",
+          "placeholder": "ID"
+        },
+        {
+          "key": "inputKey",
+          "title": "sintomas",
+          "type": "Input",
+          "label": "Sintomas",
+          "placeholder": "Sintomas"
+        },
+        {
+          "key": "estado",
+          "type": "Switch",
+          "title": "tratamiento",
+          "label": "Tratamiento",
+          "value": false
+        },
+        {
+          "key": "inputKey",
+          "title": "tratamientos",
+          "type": "Input",
+          "label": "Tratamientos",
+          "placeholder": "Tratamientos"
+        },
+        {
+          "key": "inputKey",
+          "title": "group",
+          "type": "Group",
+          "label": "Signos vitales",
+          "fields": [
+            {
+              "key": "pulso",
+              "title": "name",
+              "type": "Input",
+              "label": "Pulso",
+              "placeholder": "Pulso"
+            },
+            {
+              "key": "ta",
+              "title": "name",
+              "type": "Input",
+              "label": "TA",
+              "placeholder": "TA"
+            },
+            {
+              "key": "temperatura",
+              "title": "name",
+              "type": "Input",
+              "label": "Temperatura",
+              "placeholder": "Temperatura"
+            }
+          ]
+        },
+        {
+          "key": "exploracionesFisicas",
+          "title": "group",
+          "type": "Group",
+          "label": "Exploracion Física",
+          "fields": [
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Labios",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Labios",
+                  "type": "Hidden",
+                  "label": "Labios",
+                  "placeholder": "Labios"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Ojos",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Ojos",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "cara",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Cara",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "nombre",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Uñas",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Uñas",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Dentadura",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Dentadura",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Cabello",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Cabello",
+                  "type": "Hidden"
+                }
+              ]
+            },
+            {
+              "key": "Piel",
+              "title": "",
+              "type": "Group",
+              "label": null,
+              "fields": [
+                {
+                  "key": "observacion",
+                  "title": "observacion",
+                  "type": "Input",
+                  "label": "Piel",
+                  "placeholder": "Observación"
+                },
+                {
+                  "key": "nombre",
+                  "title": "Piel",
+                  "type": "Hidden"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+    
+  

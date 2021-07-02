@@ -1,0 +1,156 @@
+{
+  "title": "Consulta",
+  "description": "Formulario de consultas",
+  "autoValidated": true,
+  "fields": [
+    
+        {
+          "label": "Índice ponderal",
+          "key": "Indice ponderal",
+          "type": "Measure",
+          "unit": "kg/m",
+          "editable": false,
+          "nivel": "ISAK II"
+        },
+        {
+          "label": "Índice cintura-cadera (ICC)",
+          "key": "ICC",
+          "type": "Measure",
+          "unit": "cm",
+          "editable": false,
+          "nivel": "ISAK II"
+        },
+        {
+          "label": "Índice de masa corporal (IMC)",
+          "key": "IMC",
+          "type": "Measure",
+          "unit": "kg/cm",
+          "editable": false,
+          "nivel": "ISAK II"
+        }
+    ,
+   
+        {
+          "label": "Densidad Corporal",
+          "key": "Densidad Corporal",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "Katch & McArdle",
+            "Sloan",
+            "Wilmore & Behnke",
+            "Lewis y Cols",
+            "Withers",
+            "Withers y cols",
+            "Yuhasz M. S.",
+            "Durnin"
+          ]
+        },
+        {
+          "label": "Complexión corporal",
+          "key": "Complexión corporal",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "Muñeca",
+            "Talla-muñeca"
+          ]
+        },
+        {
+          "label": "Pesos teóricos ideales ( Pt )",
+          "key": "Pesos teóricos ideales ( Pt )",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "Robinson",
+            "Metropolitan",
+            "Lorentz",
+            "Hamwi",
+            "Tradicional "
+          ]
+        }
+    ,
+    
+    
+       
+        {
+          "label": "Masa grasa",
+          "key": "Masa grasa",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "Weltmann",
+            "Dumin-Wom",
+            "Faulkner",
+            "Carter",
+            "Withers"
+          ]
+        },
+        {
+          "label": "Masa ósea",
+          "key": "Masa ósea",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "Martin",
+            "Rocha"
+          ]
+        },
+        {
+          "label": "Masa muscular",
+          "key": "Masa muscular",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "Lee"		,
+            "Rose y Guimaraes"	,
+            "Matiegka"	,
+           "CMB"	,
+           "AMB"	
+            
+          ]
+        },{
+          "label": "Masa residual",
+          "key": "Masa residual",
+          "type": "Formula",
+          "editable": false,
+          "items": [
+            "100%-(MG+MO+MM)",
+            "Wurch"            
+            
+          ]
+        }
+      ,
+    {
+      "key": "somatotipo",
+      "type": "Group",
+      "label": "Somatotipo",
+      "fields": [
+        {
+          "label": "Mesomorfismo",
+          "key": "Mesomorfismo",
+          "type": "Measure",
+          "unit": "",
+          "editable": false,
+          "nivel": "ISAK II"
+        },
+        {
+          "label": "Endomorfismo",
+          "key": "Endomorfismo",
+          "type": "Measure",
+          "unit": "",
+          "editable": false,
+          "nivel": "ISAK II"
+        },
+        {
+          "label": "Ectomorfismo",
+          "key": "Ectomorfismo",
+          "type": "Measure",
+          "unit": "",
+          "editable": false,
+          "nivel": "ISAK II"
+        }
+      ]
+    }
+  ]
+}

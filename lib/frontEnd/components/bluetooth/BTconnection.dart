@@ -492,9 +492,9 @@ class _BTconnectionState extends State<BTconnection> {
     int i = 0;
     m.forEach((element) {
       widgets.add(MeasuresField(
-        subLabel: 'cm',
+        subLabel: 'mm',
         label: element['label'],
-        editable: true,
+        editable: false,
         isRequired: true,
         controller: listaCtrl.elementAt(i),
       ));

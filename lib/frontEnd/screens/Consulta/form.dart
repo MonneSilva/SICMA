@@ -6,32 +6,40 @@ import 'package:sicma/backEnd/data/consult/consult.dart';
 import 'package:sicma/backEnd/data/history/history.dart';
 import 'package:sicma/backEnd/data/history/history_dao.dart';
 import 'package:sicma/backEnd/data/pacient/pacient.dart';
+import 'package:sicma/frontEnd/components/bluetooth/BTconnection.dart';
+import 'package:sicma/frontEnd/components/cam/camara.dart';
+import 'package:sicma/frontEnd/components/form/formula.dart';
 
 import 'package:sicma/frontEnd/components/form/json_schema.dart';
+import 'package:sicma/frontEnd/components/form/section.dart';
 import 'package:sicma/frontEnd/components/tab/tabView.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:sembast/utils/value_utils.dart';
 
-class FormScreenHistorial extends StatefulWidget {
-  FormScreenHistorial({Key key, this.title}) : super(key: key);
+class FormScreenConsulta extends StatefulWidget {
+  FormScreenConsulta({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _FormScreenHistorialState createState() => _FormScreenHistorialState();
+  _FormScreenConsultaState createState() => _FormScreenConsultaState();
 }
 
-class _FormScreenHistorialState extends State<FormScreenHistorial>
+class _FormScreenConsultaState extends State<FormScreenConsulta>
     with TickerProviderStateMixin {
   TabController _tabController;
   Map data;
   final _formKey = GlobalKey<FormState>();
   String formString;
   dynamic response;
+  Map info = Map();
   Map form = Map();
   String aux;
   String aux1;
   String aux2;
+  String aux3;
+  String aux4;
+  bool cameraFlag = true;
 
   @override
   void initState() {
@@ -47,7 +55,7 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
     });
 
     response =
-        await rootBundle.loadString("lib/backEnd/data/json/history.json");
+        await rootBundle.loadString("lib/backEnd/data/json/consult.json");
     if (response != null) {
       aux = response;
 
@@ -60,7 +68,7 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
     }
 
     response =
-        await rootBundle.loadString("lib/backEnd/data/json/history1.json");
+        await rootBundle.loadString("lib/backEnd/data/json/consult1.json");
     if (response != null) {
       aux1 = response;
 
@@ -73,9 +81,36 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
       throw Exception('Failed to load form');
     }
     response =
-        await rootBundle.loadString("lib/backEnd/data/json/history2.json");
+        await rootBundle.loadString("lib/backEnd/data/json/consult2.json");
     if (response != null) {
       aux2 = response;
+
+      print(form);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      response = '';
+      throw Exception('Failed to load form');
+    }
+    response =
+        await rootBundle.loadString("lib/backEnd/data/json/consult3.json");
+    if (response != null) {
+      aux3 = response;
+
+      print(form);
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      response = '';
+      throw Exception('Failed to load form');
+    }
+
+    response =
+        await rootBundle.loadString("lib/backEnd/data/json/consult4.json");
+    if (response != null) {
+      aux4 = response;
 
       print(form);
       setState(() {
@@ -97,9 +132,12 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
     return cons;
   }
 
+  bool meassure = true;
   @override
   Widget build(BuildContext context) {
-    p = ModalRoute.of(context).settings.arguments as Pacient;
+    List arguments = ModalRoute.of(context).settings.arguments;
+    p = arguments[0] as Pacient;
+
     bool hasData = p != null ? true : false;
     hasData ? form = cloneMap(p.history.data) : new Map();
     return Scaffold(
@@ -143,7 +181,7 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
                   backgroundColor: Colors.transparent,
                   centerTitle: true,
                   title: Text(
-                    "Historial Clínico",
+                    "Consulta Clínico",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 25),
                   ),
@@ -178,13 +216,13 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
                           tabs: [
                             // first tab [you can add an icon using the icon property]
                             Tab(
-                              icon: Icon(Icons.group),
+                              icon: Icon(Icons.access_time_sharp),
                             ),
                             Tab(
-                              icon: Icon(Icons.person),
+                              icon: Icon(Icons.accessibility_new),
                             ),
                             Tab(
-                              icon: Icon(Icons.medical_services_outlined),
+                              icon: Icon(Icons.assignment_outlined),
                             ),
                             Tab(
                               icon: Icon(Icons.calendar_today),
@@ -208,15 +246,22 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
                                 controller: _tabController,
                                 children: [
                                   CustomTabView(
-                                    title: 'Antecedentes Heredofamiliares',
+                                    title: 'Estado Actual',
                                     children: [
-                                      // Text(aux['data'][0].toString()),
                                       JsonSchema(
                                           data: form,
                                           editable: true,
                                           form: aux,
-                                          onChanged: (dynamic response) {
-                                            this.response = response;
+                                          onChanged: (response) {
+                                            Map aux =
+                                                this.info['Estado Actual'];
+                                            aux[Map.castFrom(response)
+                                                    .keys
+                                                    .first] =
+                                                Map.castFrom(response)
+                                                    .values
+                                                    .first;
+                                            print(this.info);
                                           })
                                     ],
                                     childrenFooter: [
@@ -234,7 +279,7 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
                                               onPressed: () {
                                                 Navigator.of(context)
                                                     .popAndPushNamed(
-                                                        '/Historial/New',
+                                                        '/Consulta/New',
                                                         arguments: p);
                                               },
                                               child: Text('Omitir'))),
@@ -256,117 +301,47 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
                                     ],
                                   ),
                                   CustomTabView(
-                                    title:
-                                        'Antecedentes Personales No Patológicos',
+                                    title: 'Antropometría',
                                     children: [
-                                      JsonSchema(
-                                          data: form,
-                                          editable: true,
-                                          form: aux1,
-                                          onChanged: (field) {
-                                            this.response = response;
-                                          })
+                                      Visibility(
+                                          visible: meassure,
+                                          child: Miniature(
+                                            onTaken: (value) {
+                                              setState(() {
+                                                meassure = value;
+                                              });
+                                            },
+                                          )),
+                                      //  photo1,
+                                      Visibility(
+                                          visible: !meassure,
+                                          child: Column(children: [
+                                            JsonSchema(
+                                                data: form,
+                                                editable: true,
+                                                form: aux1,
+                                                onChanged: (dynamic response) {
+                                                  Map aux = this
+                                                      .info['Estado Actual'];
+                                                  aux[Map.castFrom(response)
+                                                          .keys
+                                                          .first] =
+                                                      Map.castFrom(response)
+                                                          .values
+                                                          .first;
+                                                  print(this.info);
+                                                }),
+                                            CustomSection(
+                                              label: "Pligues Cutáneos",
+                                              type: 'dropDown',
+                                              children: [BTconnection()],
+                                            )
+                                          ])),
                                     ],
                                     childrenFooter: [
-                                      ButtonTheme(
-                                          minWidth: 120,
-                                          height: 40.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .popAndPushNamed(
-                                                        '/Historial/New',
-                                                        arguments: p);
-                                              },
-                                              child: Text('Omitir'))),
-                                      ButtonTheme(
-                                          minWidth: 120,
-                                          height: 40.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
-                                              ),
-                                              onPressed: () {
-                                                _tabController.index++;
-                                              },
-                                              child: Text('Siguiente')))
-                                    ],
-                                  ),
-                                  CustomTabView(
-                                    title:
-                                        'Antecedentes Personales Patológicos',
-                                    children: [
-                                      JsonSchema(
-                                          data: form,
-                                          editable: true,
-                                          form: aux2,
-                                          onChanged: (dynamic response) {
-                                            this.response = response;
-                                          })
-                                    ],
-                                    childrenFooter: [
-                                      ButtonTheme(
-                                          minWidth: 120,
-                                          height: 40.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context)
-                                                    .popAndPushNamed(
-                                                        '/Historial/New',
-                                                        arguments: p);
-                                              },
-                                              child: Text('Omitir'))),
-                                      ButtonTheme(
-                                          minWidth: 120,
-                                          height: 40.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
-                                              ),
-                                              onPressed: () {
-                                                var history = History.fromJson(
-                                                    null, json.decode(aux1));
-                                                var hD = HistoryDao();
-                                                history.data['paciente_id'] =
-                                                    p.id;
-                                                history.data['fecha'] =
-                                                    DateTime.now().toString();
-                                                hD.insert(history);
-                                                p.setHistory(history);
-
-                                                _tabController.index++;
-                                              },
-                                              child: Text('Guardar')))
-                                    ],
-                                  ),
-                                  CustomTabView(title: 'Consultas', children: [
-                                    Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          ButtonTheme(
+                                      Visibility(
+                                          visible: !meassure,
+                                          child: ButtonTheme(
                                               minWidth: 120,
                                               height: 40.0,
                                               child: RaisedButton(
@@ -379,48 +354,107 @@ class _FormScreenHistorialState extends State<FormScreenHistorial>
                                                             25.0),
                                                   ),
                                                   onPressed: () {
-                                                    Navigator.of(context)
-                                                        .popAndPushNamed(
-                                                            '/Consulta/New',
-                                                            arguments: p);
+                                                    setState(() {
+                                                      meassure = true;
+                                                    });
                                                   },
-                                                  child:
-                                                      Text('Nueva consulta'))),
-                                        ]),
-                                    SizedBox(
-                                      height: 200, // Some height
-                                      child: form.containsKey('Consultas')
-                                          ? ListView(
-                                              children: getConsults(
-                                                      form['Consultas'] as List)
-                                                  .map(_buildItem)
-                                                  .toList(),
-                                            )
-                                          : Text("Sin consultas"),
-                                    )
-                                  ], childrenFooter: []),
+                                                  child: Text('Cancelar')))),
+                                      Visibility(
+                                          visible: !meassure,
+                                          child: ButtonTheme(
+                                              minWidth: 120,
+                                              height: 40.0,
+                                              child: FlatButton(
+                                                  textColor: Colors.white,
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            25.0),
+                                                  ),
+                                                  onPressed: () {
+                                                    print("form: " +
+                                                        aux1.toString());
+                                                    _tabController.index++;
+                                                  },
+                                                  child: Text('Siguiente'))))
+                                    ],
+                                  ),
+                                  CustomTabView(
+                                    title: 'Resultados',
+                                    children: [
+                                      JsonSchema(
+                                          data: form,
+                                          editable: true,
+                                          form: aux2,
+                                          onChanged: (dynamic response) {
+                                            Map aux =
+                                                this.info['Estado Actual'];
+                                            aux[Map.castFrom(response)
+                                                    .keys
+                                                    .first] =
+                                                Map.castFrom(response)
+                                                    .values
+                                                    .first;
+                                            print(this.info);
+                                          })
+                                    ],
+                                    childrenFooter: [
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                        '/Consulta/New',
+                                                        arguments: p);
+                                              },
+                                              child: Text('Omitir'))),
+                                      ButtonTheme(
+                                          minWidth: 120,
+                                          height: 40.0,
+                                          child: RaisedButton(
+                                              textColor: Colors.white,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25.0),
+                                              ),
+                                              onPressed: () {
+                                                _tabController.index++;
+                                              },
+                                              child: Text('Guardar')))
+                                    ],
+                                  ),
+                                  CustomTabView(
+                                      title: 'Plan Nutricional',
+                                      children: [
+                                        Text(this.info.toString()),
+                                        JsonSchema(
+                                            data: form,
+                                            editable: true,
+                                            form: aux3,
+                                            onChanged: (dynamic response) {
+                                              this.info = response;
+                                              print(response);
+                                            })
+                                      ],
+                                      childrenFooter: []),
                                 ]),
                           )))
                 ],
               ),
             ),
-    );
-  }
-
-  Widget _buildItem(Consult consult) {
-    return new ListTile(
-      title: new Text("Consulta"),
-      subtitle: new Text(consult.data['fecha']),
-      leading: new Icon(
-        consult.data['tipo'] == "Deportiva"
-            ? Icons.sports_handball_rounded
-            : Icons.flatware_sharp,
-        size: 50,
-      ),
-      onTap: () {
-        Navigator.pushNamed(context, '/Consulta/New',
-            arguments: [p, consult, false]);
-      },
     );
   }
 }

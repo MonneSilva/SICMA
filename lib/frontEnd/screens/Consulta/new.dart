@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sicma/backEnd/data/consult/consult.dart';
 import 'package:sicma/backEnd/data/pacient/pacient.dart';
 import 'package:sicma/frontEnd/components/bluetooth/BTconnection.dart';
 import 'package:sicma/frontEnd/components/cam/camara.dart';
@@ -11,6 +12,7 @@ import 'package:sicma/frontEnd/components/form/field.dart';
 import 'package:sicma/frontEnd/components/form/row.dart';
 import 'package:sicma/frontEnd/components/form/section.dart';
 import 'package:sicma/frontEnd/components/tab/tabView.dart';
+import 'package:sembast/utils/value_utils.dart';
 
 class NewScreenConsulta extends StatefulWidget {
   NewScreenConsulta({Key key, this.title}) : super(key: key);
@@ -78,7 +80,12 @@ class _NewScreenConsultaState extends State<NewScreenConsulta>
   @override
   Widget build(BuildContext context) {
     Miniature photo1 = new Miniature();
-    final Pacient p = ModalRoute.of(context).settings.arguments as Pacient;
+    List arguments = ModalRoute.of(context).settings.arguments;
+    final Pacient p = arguments[0] as Pacient;
+    final Consult c = arguments[1] as Consult;
+    final bool edit = arguments[2];
+    bool hasData = c != null ? true : false;
+    hasData ? form = cloneMap(c.data) : new Map();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: PreferredSize(
@@ -170,738 +177,837 @@ class _NewScreenConsultaState extends State<NewScreenConsulta>
                         ),
                       )),
                   Expanded(
-                      child: Form(
-                          key: _formKey,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: new BorderRadius.only(
-                                topLeft: const Radius.circular(30.0),
-                                topRight: const Radius.circular(30.0),
-                              ),
-                              color: Colors.white,
+                      child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(30.0),
+                              topRight: const Radius.circular(30.0),
                             ),
-                            child: TabBarView(
-                                physics: NeverScrollableScrollPhysics(),
-                                controller: _tabController,
-                                children: [
-                                  CustomTabView(
-                                    title: 'Estado Actual',
-                                    children: [
-                                      CustomField(
-                                        label: 'Sintomas:',
-                                        editable: true,
-                                        isRequired: false,
-                                        type: 'text',
-                                        items: getItems(data['enfermedades']
-                                            ['heredofamiliares']),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.16),
+                                  spreadRadius: 3,
+                                  blurRadius: 3,
+                                  offset: Offset(7, 0)),
+                            ],
+                          ),
+                          child: Form(
+                              key: _formKey,
+                              child: Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: new BorderRadius.only(
+                                        topLeft: const Radius.circular(30.0),
+                                        topRight: const Radius.circular(30.0),
                                       ),
-                                      CheckBoxButton(
-                                        label: '¿Se encuentra en tratamiento?',
-                                        editable: true,
-                                        state: data['tratamientos'],
-                                        /* isRequired: false,
+                                      color: Colors.white,
+                                    ),
+                                    child: TabBarView(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        controller: _tabController,
+                                        children: [
+                                          CustomTabView(
+                                            title: 'Estado Actual',
+                                            children: [
+                                              CustomField(
+                                                label: 'Sintomas:',
+                                                editable: true,
+                                                isRequired: false,
+                                                type: 'text',
+                                                items: getItems(
+                                                    data['enfermedades']
+                                                        ['heredofamiliares']),
+                                              ),
+                                              CheckBoxButton(
+                                                label:
+                                                    '¿Se encuentra en tratamiento?',
+                                                editable: true,
+                                                state: data['tratamientos'],
+                                                /* isRequired: false,
                                         type: 'checkbox',*/
-                                      ),
-                                      CustomField(
-                                        label: '¿Cúales?',
-                                        editable: true,
-                                        isRequired: false,
-                                        type: 'text',
-                                      ),
-                                      CustomSection(
-                                        label: "Signos Vitales",
-                                        type: 'dropDown',
-                                        children: [
-                                          MeasuresField(
-                                            label: 'Temperatura',
-                                            editable: true,
-                                            isRequired: false,
-                                            subLabel: "°C",
-                                          ),
-                                          MeasuresField(
-                                            label: 'Pulso',
-                                            editable: true,
-                                            isRequired: false,
-                                            subLabel: "",
-                                          ),
-                                          MeasuresField(
-                                            label: 'TA',
-                                            editable: true,
-                                            isRequired: false,
-                                            subLabel: "",
-                                          ),
-                                        ],
-                                      ),
-                                      CustomSection(
-                                        label: "Exploración Física",
-                                        type: 'dropDown',
-                                        children: [
-                                          Wrap(
-                                              spacing: 2.0,
-                                              runSpacing: 2.0,
-                                              children: [
-                                                InputChip(
-                                                  padding: EdgeInsets.all(2.0),
-                                                  label: Text(
-                                                    'nombre',
-                                                    style: TextStyle(
-                                                        color: Colors.black),
+                                              ),
+                                              CustomField(
+                                                label: '¿Cúales?',
+                                                editable: true,
+                                                isRequired: false,
+                                                type: 'text',
+                                              ),
+                                              CustomSection(
+                                                label: "Signos Vitales",
+                                                type: 'dropDown',
+                                                children: [
+                                                  MeasuresField(
+                                                    label: 'Temperatura',
+                                                    editable: true,
+                                                    isRequired: false,
+                                                    subLabel: "°C",
                                                   ),
-                                                  selectedColor:
-                                                      Colors.blue.shade600,
-                                                  onSelected:
-                                                      (bool selected) {},
-                                                  onDeleted: () {
-                                                    setState(() {});
-                                                  },
-                                                )
-                                              ]),
-                                          CustomRow(columns: 2, children: [
-                                            CustomField(
-                                              label: 'Área',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              items: getItems(data['sexo']),
-                                            ),
-                                            Container()
-                                          ]),
-                                          CustomField(
-                                            label: 'Observación:',
-                                            editable: true,
-                                            isRequired: false,
-                                            type: 'text',
-                                            items: getItems(data['sexo']),
+                                                  MeasuresField(
+                                                    label: 'Pulso',
+                                                    editable: true,
+                                                    isRequired: false,
+                                                    subLabel: "",
+                                                  ),
+                                                  MeasuresField(
+                                                    label: 'TA',
+                                                    editable: true,
+                                                    isRequired: false,
+                                                    subLabel: "",
+                                                  ),
+                                                ],
+                                              ),
+                                              CustomSection(
+                                                label: "Exploración Física",
+                                                type: 'dropDown',
+                                                children: [
+                                                  Wrap(
+                                                      spacing: 2.0,
+                                                      runSpacing: 2.0,
+                                                      children: [
+                                                        InputChip(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  2.0),
+                                                          label: Text(
+                                                            'nombre',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          selectedColor: Colors
+                                                              .blue.shade600,
+                                                          onSelected: (bool
+                                                              selected) {},
+                                                          onDeleted: () {
+                                                            setState(() {});
+                                                          },
+                                                        )
+                                                      ]),
+                                                  CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: 'Área',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          items: getItems(
+                                                              data['sexo']),
+                                                        ),
+                                                        Container()
+                                                      ]),
+                                                  CustomField(
+                                                    label: 'Observación:',
+                                                    editable: true,
+                                                    isRequired: false,
+                                                    type: 'text',
+                                                    items:
+                                                        getItems(data['sexo']),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                            childrenFooter: [
+                                              ButtonTheme(
+                                                  minWidth: 150.0,
+                                                  height: 50.0,
+                                                  child: RaisedButton(
+                                                      textColor: Colors.white,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25.0),
+                                                      ),
+                                                      onPressed: () {
+                                                        if (_formKey
+                                                            .currentState
+                                                            .validate()) {}
+                                                      },
+                                                      child: Text('Siguiente')))
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ],
-                                    childrenFooter: [
-                                      ButtonTheme(
-                                          minWidth: 150.0,
-                                          height: 50.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
+                                          CustomTabView(
+                                            title: 'Antropometría',
+                                            children: [
+                                              photo1,
+                                              CustomSection(
+                                                label: "Medidas Básicas",
+                                                type: 'dropDown',
+                                                children: getFields(
+                                                    'Medidas básicas'),
                                               ),
-                                              onPressed: () {
-                                                if (_formKey.currentState
-                                                    .validate()) {}
-                                              },
-                                              child: Text('Siguiente')))
-                                    ],
-                                  ),
-                                  CustomTabView(
-                                    title: 'Antropometría',
-                                    children: [
-                                      photo1,
-                                      CustomSection(
-                                        label: "Medidas Básicas",
-                                        type: 'dropDown',
-                                        children: getFields('Medidas básicas'),
-                                      ),
-                                      CustomSection(
-                                        label: "Perímetros",
-                                        type: 'dropDown',
-                                        children: getFields('Perímetros'),
-                                      ),
-                                      CustomSection(
-                                        label: "Diámetros",
-                                        type: 'dropDown',
-                                        children: getFields('Diámetros'),
-                                      ),
-                                      CustomSection(
-                                        label: "Longitudes",
-                                        type: 'dropDown',
-                                        children: getFields('Longitudes'),
-                                      ),
-                                      CustomSection(
-                                        label: "Pligues Cutáneos",
-                                        type: 'dropDown',
-                                        children: [BTconnection()],
-                                      ),
-                                    ],
-                                    childrenFooter: [
-                                      ButtonTheme(
-                                          minWidth: 150,
-                                          height: 50.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
+                                              CustomSection(
+                                                label: "Perímetros",
+                                                type: 'dropDown',
+                                                children:
+                                                    getFields('Perímetros'),
                                               ),
-                                              onPressed: () {
-                                                _tabController.index++;
-                                              },
-                                              child: Text('Siguiente'))),
-                                    ],
-                                  ),
-                                  CustomTabView(
-                                    title: 'Diagnóstico',
-                                    children: [
-                                      CustomSection(label: "IMC", children: [
-                                        CustomRow(
-                                          columns: 2,
-                                          children: [
-                                            CustomField(
-                                              label: '',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items:
-                                                  getItems(data['grupoSangre']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                            CustomField(
-                                              label: '',
-                                              editable: false,
-                                              isRequired: false,
-                                              type: 'text',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items: getItems(data['rh']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                      CustomSection(label: "ICC", children: [
-                                        CustomRow(
-                                          columns: 2,
-                                          children: [
-                                            CustomField(
-                                              label: '',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items:
-                                                  getItems(data['grupoSangre']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                            CustomField(
-                                              label: '',
-                                              editable: false,
-                                              isRequired: false,
-                                              type: 'text',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items: getItems(data['rh']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                      CustomSection(
-                                          label: "% Grasa",
-                                          children: [
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: '',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: '',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                      CustomSection(
-                                          label: "Complexión",
-                                          children: [
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: '',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: '',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                      CustomSection(label: "Pi", children: [
-                                        CustomRow(
-                                          columns: 2,
-                                          children: [
-                                            CustomField(
-                                              label: '',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items:
-                                                  getItems(data['grupoSangre']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                            CustomField(
-                                              label: '',
-                                              editable: false,
-                                              isRequired: false,
-                                              type: 'text',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items: getItems(data['rh']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                      CustomSection(label: "% Pi", children: [
-                                        CustomRow(
-                                          columns: 2,
-                                          children: [
-                                            CustomField(
-                                              label: '',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items:
-                                                  getItems(data['grupoSangre']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                            CustomField(
-                                              label: '',
-                                              editable: false,
-                                              isRequired: false,
-                                              type: 'text',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items: getItems(data['rh']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                      CustomSection(label: "% Ph", children: [
-                                        CustomRow(
-                                          columns: 2,
-                                          children: [
-                                            CustomField(
-                                              label: '',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items:
-                                                  getItems(data['grupoSangre']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                            CustomField(
-                                              label: '',
-                                              editable: false,
-                                              isRequired: false,
-                                              type: 'text',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items: getItems(data['rh']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                      CustomSection(label: "PI", children: [
-                                        CustomRow(
-                                          columns: 2,
-                                          children: [
-                                            CustomField(
-                                              label: '',
-                                              editable: true,
-                                              isRequired: false,
-                                              type: 'select',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items:
-                                                  getItems(data['grupoSangre']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                            CustomField(
-                                              label: '',
-                                              editable: false,
-                                              isRequired: false,
-                                              type: 'text',
-                                              validator: (value) {
-                                                return null;
-                                              },
-                                              items: getItems(data['rh']),
-                                              onChanged: (value) {
-                                                form['escolaridad'] = value;
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ]),
-                                      CustomSection(
-                                          label: "Densidad",
-                                          children: [
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: '',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: '',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                      CustomSection(
-                                          label: "Actividad Física",
-                                          children: [
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: '',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: '',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                    ],
-                                    childrenFooter: [
-                                      ButtonTheme(
-                                          minWidth: 150.0,
-                                          height: 50.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
+                                              CustomSection(
+                                                label: "Diámetros",
+                                                type: 'dropDown',
+                                                children:
+                                                    getFields('Diámetros'),
                                               ),
-                                              onPressed: () {
-                                                if (_formKey.currentState
-                                                    .validate()) {}
-                                              },
-                                              child: Text('Siguiente')))
-                                    ],
-                                  ),
-                                  CustomTabView(
-                                    title: 'Plan Nutricional',
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(top: 20),
-                                        child: CustomField(
-                                          editable: true,
-                                          type: 'text',
-                                          orientation: 'horizontal',
-                                          label: 'Tipo de dieta:',
-                                        ),
-                                      ),
-                                      CustomSection(
-                                          label: "Cálculo Dietético",
-                                          type: 'dropDown',
-                                          children: [
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: 'GEB',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: ' ',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: 'ETA',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: ' ',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: 'AF',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: ' ',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            CustomRow(
-                                              columns: 2,
-                                              children: [
-                                                CustomField(
-                                                  label: 'GET',
-                                                  editable: true,
-                                                  isRequired: false,
-                                                  type: 'select',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(
-                                                      data['grupoSangre']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                                CustomField(
-                                                  label: ' ',
-                                                  editable: false,
-                                                  isRequired: false,
-                                                  type: 'text',
-                                                  validator: (value) {
-                                                    return null;
-                                                  },
-                                                  items: getItems(data['rh']),
-                                                  onChanged: (value) {
-                                                    form['escolaridad'] = value;
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                          ]),
-                                      CustomSection(
-                                          label: "Recordatorio 24 horas",
-                                          type: 'dropDown',
-                                          children: []),
-                                      CustomSection(
-                                          label: "Plan Semanal",
-                                          type: 'dropDown',
-                                          children: []),
-                                      CustomField(
-                                        label: 'Observaciones generales:',
-                                        editable: true,
-                                        isRequired: false,
-                                        type: 'text',
-                                        items: getItems(data['sexo']),
-                                      ),
-                                    ],
-                                    childrenFooter: [
-                                      ButtonTheme(
-                                          minWidth: 300.0,
-                                          height: 50.0,
-                                          child: RaisedButton(
-                                              textColor: Colors.white,
-                                              color: Theme.of(context)
-                                                  .primaryColor,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(25.0),
+                                              CustomSection(
+                                                label: "Longitudes",
+                                                type: 'dropDown',
+                                                children:
+                                                    getFields('Longitudes'),
                                               ),
-                                              /* style: ButtonStyle(
+                                              CustomSection(
+                                                label: "Pligues Cutáneos",
+                                                type: 'dropDown',
+                                                children: [BTconnection()],
+                                              ),
+                                            ],
+                                            childrenFooter: [
+                                              ButtonTheme(
+                                                  minWidth: 150,
+                                                  height: 50.0,
+                                                  child: RaisedButton(
+                                                      textColor: Colors.white,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25.0),
+                                                      ),
+                                                      onPressed: () {
+                                                        _tabController.index++;
+                                                      },
+                                                      child:
+                                                          Text('Siguiente'))),
+                                            ],
+                                          ),
+                                          CustomTabView(
+                                            title: 'Diagnóstico',
+                                            children: [
+                                              CustomSection(
+                                                  label: "IMC",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "ICC",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "% Grasa",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "Complexión",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "Pi",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "% Pi",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "% Ph",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "PI",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "Densidad",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label: "Actividad Física",
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: '',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                            ],
+                                            childrenFooter: [
+                                              ButtonTheme(
+                                                  minWidth: 150.0,
+                                                  height: 50.0,
+                                                  child: RaisedButton(
+                                                      textColor: Colors.white,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25.0),
+                                                      ),
+                                                      onPressed: () {
+                                                        if (_formKey
+                                                            .currentState
+                                                            .validate()) {}
+                                                      },
+                                                      child: Text('Siguiente')))
+                                            ],
+                                          ),
+                                          CustomTabView(
+                                            title: 'Plan Nutricional',
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 20),
+                                                child: CustomField(
+                                                  editable: true,
+                                                  type: 'text',
+                                                  orientation: 'horizontal',
+                                                  label: 'Tipo de dieta:',
+                                                ),
+                                              ),
+                                              CustomSection(
+                                                  label: "Cálculo Dietético",
+                                                  type: 'dropDown',
+                                                  children: [
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: 'GEB',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: ' ',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: 'ETA',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: ' ',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: 'AF',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: ' ',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    CustomRow(
+                                                      columns: 2,
+                                                      children: [
+                                                        CustomField(
+                                                          label: 'GET',
+                                                          editable: true,
+                                                          isRequired: false,
+                                                          type: 'select',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(data[
+                                                              'grupoSangre']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                        CustomField(
+                                                          label: ' ',
+                                                          editable: false,
+                                                          isRequired: false,
+                                                          type: 'text',
+                                                          validator: (value) {
+                                                            return null;
+                                                          },
+                                                          items: getItems(
+                                                              data['rh']),
+                                                          onChanged: (value) {
+                                                            form['escolaridad'] =
+                                                                value;
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ]),
+                                              CustomSection(
+                                                  label:
+                                                      "Recordatorio 24 horas",
+                                                  type: 'dropDown',
+                                                  children: []),
+                                              CustomSection(
+                                                  label: "Plan Semanal",
+                                                  type: 'dropDown',
+                                                  children: []),
+                                              CustomField(
+                                                label:
+                                                    'Observaciones generales:',
+                                                editable: true,
+                                                isRequired: false,
+                                                type: 'text',
+                                                items: getItems(data['sexo']),
+                                              ),
+                                            ],
+                                            childrenFooter: [
+                                              ButtonTheme(
+                                                  minWidth: 300.0,
+                                                  height: 50.0,
+                                                  child: RaisedButton(
+                                                      textColor: Colors.white,
+                                                      color: Theme.of(context)
+                                                          .primaryColor,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(25.0),
+                                                      ),
+                                                      /* style: ButtonStyle(
                                               backgroundColor:
                                                   MaterialStateProperty.all<
                                                           Color>(
                                                       Theme.of(context)
                                                           .primaryColor)),*/
-                                              onPressed: () {
-                                                if (_formKey.currentState
-                                                    .validate()) {}
-                                              },
-                                              child: Text('Guardar')))
-                                    ],
-                                  ),
-                                ]),
-                          )))
+                                                      onPressed: () {
+                                                        if (_formKey
+                                                            .currentState
+                                                            .validate()) {}
+                                                      },
+                                                      child: Text('Guardar')))
+                                            ],
+                                          ),
+                                        ]),
+                                  )))))
                 ],
               ),
             ),

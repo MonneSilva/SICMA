@@ -9,10 +9,11 @@ import 'package:path_provider/path_provider.dart';
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   final CameraDescription camera;
-
+  final ValueChanged<dynamic> onTaken;
   const TakePictureScreen({
     Key key,
     @required this.camera,
+    this.onTaken,
   }) : super(key: key);
 
   @override
@@ -21,10 +22,11 @@ class TakePictureScreen extends StatefulWidget {
 
 class TakePictureScreenState extends State<TakePictureScreen> {
   CameraController _controller;
+
   Future<void> _initializeControllerFuture;
   List positions = ['Frontal', 'Posterior', 'Lateral Derecho'];
   int _index = 0;
-  List<dynamic> paths = new List();
+  List<dynamic> paths = [];
 
   @override
   void initState() {
@@ -40,6 +42,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
     // Next, initialize the controller. This returns a Future.
     _initializeControllerFuture = _controller.initialize();
+  }
+
+  void _handleChanged(data) {
+    widget.onTaken(data);
   }
 
   @override
@@ -153,16 +159,13 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 
             // Construct the path where the image should be saved using the
             // pattern package.
-            final path = join(
-              // Store the picture in the temp directory.
-              // Find the temp directory using the `path_provider` plugin.
-              (await getTemporaryDirectory()).path,
-              '${DateTime.now()}.png',
-            );
 
             // Attempt to take a picture and log where it's been saved.
-            await _controller.takePicture();
-            _showMaterialDialog(path);
+            final image = await _controller.takePicture();
+
+            _showMaterialDialog(image.path);
+            print(image.path);
+            _handleChanged(false);
 
             // If the picture was taken, display it on a new screen.
             //print('hola.5');
@@ -211,6 +214,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
 class Miniature extends StatefulWidget {
   String globalpath;
   bool phototaken = false;
+  Map medidas = Map();
+  Miniature({this.onTaken});
+  final ValueChanged<dynamic> onTaken;
+
   @override
   State<StatefulWidget> createState() {
     return new _MiniatureState();
@@ -218,6 +225,11 @@ class Miniature extends StatefulWidget {
 }
 
 class _MiniatureState extends State<Miniature> {
+  bool photoTaken = true;
+  void _handleChanged(state) {
+    widget.onTaken(state);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -234,46 +246,66 @@ class _MiniatureState extends State<Miniature> {
                     BoxShadow(color: Colors.white10, spreadRadius: 3),
                   ],
                 ),
-                height: 300,
+                height: 500,
                 alignment: Alignment.center,
                 //color: Colors.grey,
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.camera_alt_outlined,
-                        color: Theme.of(context).primaryColorLight,
-                        size: 100,
-                      ),
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        onPressed: () async {
-                          WidgetsFlutterBinding.ensureInitialized();
-                          final cameras = await availableCameras();
-                          final firstCamera = cameras.first;
-                          //print('hol');
-                          /*final path = await*/ Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TakePictureScreen(
-                                camera: firstCamera,
-                              ),
+                      photoTaken
+                          ? Icon(
+                              Icons.camera_alt_outlined,
+                              color: Theme.of(context).primaryColorLight,
+                              size: 100,
+                            )
+                          : Icon(
+                              Icons.accessibility_new,
+                              color: Theme.of(context).primaryColorLight,
+                              size: 100,
                             ),
-                          );
-                          /*if (path != null) {
+                      photoTaken
+                          ? FlatButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              color: Theme.of(context).primaryColor,
+                              textColor: Colors.white,
+                              onPressed: () async {
+                                WidgetsFlutterBinding.ensureInitialized();
+                                final cameras = await availableCameras();
+                                final firstCamera = cameras.first;
+                                //print('hol');
+                                /*final path = await*/ Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TakePictureScreen(
+                                        camera: firstCamera,
+                                        onTaken: (state) {
+                                          photoTaken = state;
+                                        }),
+                                  ),
+                                );
+                                /*if (path != null) {
                             setState(() {
                               //print('$path');
                               widget.globalpath = path;
                               widget.phototaken = true;
                             });
                           }*/
-                        },
-                        child: Text('Tomar fotografía'),
-                      ),
+                              },
+                              child: Text('Tomar fotografía'),
+                            )
+                          : FlatButton(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                              ),
+                              color: Theme.of(context).primaryColor,
+                              textColor: Colors.white,
+                              onPressed: () async {
+                                _handleChanged(false);
+                              },
+                              child: Text('Obtener medidas'),
+                            ),
                     ])))
       ],
     );
